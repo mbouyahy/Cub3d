@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:10:22 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/10 16:52:53 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/10 19:58:21 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,29 @@ char	**fill_stock(int *map_s)
     return (map);
 }
 
-void draw_sq(s_data *data, int color, int cup)
+void draw_sq(t_data *data, int color, int cup)
 {
     int i = 0;
     int j = 0;
+
     data->x_start *= cup;
     data->y_start *= cup;
     while (j < cup)
     {
         while (i < cup)
         {
-            mlx_pixel_put(data->mlx_ptr, data->win_ptr,data->x_start +  i,data->y_start + j, color);
+            if (data->x_start + i < WIN_WIDTH && data->y_start + j < WIN_HEIGHT)
+                put_img(data->x_start + i, data->y_start + j, color, data);
+            printf("data->x_start + i = %d, data->y_start + j = %d\n", data->x_start + i, data->y_start + j);
             i++;
         }
-        
         i = 0;
         j++;
     }
+    mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->mlx_img, 0, 0);
 }
 
-void    draw_map(s_data *data)
+void    draw_map(t_data *data)
 {
     char **map;
     int map_size;
