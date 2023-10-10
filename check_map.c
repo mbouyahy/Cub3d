@@ -6,172 +6,106 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:10:22 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/06 15:18:53 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/10 16:52:53 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cup3d.h"
 
-char	*ft_strdup(const char *s1)
-{
-	int		i;
-	int		j;
-	char	*s;
-	char	*d;
-
-	i = 0;
-	j = 0;
-	s = (char *)s1;
-	while (s[j])
-		j++;
-	d = (char *)malloc(j + 1);
-	if (!d)
-		return (NULL);
-	while (s[i])
-	{
-		d[i] = s[i];
-		i++;
-	}
-	d[i] = '\0';
-	return (d);
-}
-
-list	*ft_lstlast(list *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next != NULL)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-void	ft_lstadd_back(list **lst, list *new)
-{
-	list	*t;
-
-	if (!lst || !new)
-		return ;
-	if (*lst)
-	{
-		t = ft_lstlast(*lst);
-		t->next = new;
-	}
-	else
-		*lst = new;
-}
-
-list	*ft_lstnew(void	*content)
-{
-	list	*newlist;
-
-	newlist = (list *)malloc(sizeof(list));
-	if (!newlist)
-		return (NULL);
-	newlist->stock = content;
-	newlist->next = NULL;
-	return (newlist);
-}
-
-list    *fill_stock(void)
-{
-    int fd;
+int	map_size()
+{    
+	int fd;
+    int map_size;
     char *stock;
-    list *map;
 
-    map = NULL;
-    fd = open("maps", O_RDWR, 777);
-    stock = get_next_line(fd);
+	map_size = 0;
+	fd = open("maps", O_RDWR, 777);//convert it to READ ONLY!
+	stock = get_next_line(fd);
     while (stock != NULL)
     {
-        if (stock)
-            ft_lstadd_back(&map, ft_lstnew(ft_strdup(stock)));
         stock = get_next_line(fd);
+		map_size++;
     }
+	return (map_size);
+}
+
+char	**fill_stock(int *map_s)
+{
+    char	*stock;
+    char	**map;
+	int		fd;
+	int		i;
+	int		size;
+
+	i = 0;
+	size = map_size();
+	*map_s = size;
+	map = malloc(sizeof(char **) * size);
+	if (!map)
+		exit(1);//test
+
+	fd = open("maps", O_RDWR, 777);//convert it to READ ONLY!
+	stock = get_next_line(fd);
+	while (i < size)
+	{
+		map[i] = malloc(sizeof(char *) * ft_strlen(stock));
+		if (!map[i])
+			exit(1);//test
+		map[i] = stock;
+		stock = get_next_line(fd);
+		i++;
+	}
     close(fd);
     return (map);
 }
 
-static int	verifier(const char *set, char c)
+void draw_sq(s_data *data, int color, int cup)
 {
-	int	i;
-
-	i = 0;
-	while (set[i])
-	{
-		if (set[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
+    int i = 0;
+    int j = 0;
+    data->x_start *= cup;
+    data->y_start *= cup;
+    while (j < cup)
+    {
+        while (i < cup)
+        {
+            mlx_pixel_put(data->mlx_ptr, data->win_ptr,data->x_start +  i,data->y_start + j, color);
+            i++;
+        }
+        
+        i = 0;
+        j++;
+    }
 }
 
-static int	firstset(const char	*s1, const char *set)
+void    draw_map(s_data *data)
 {
-	int	i;
-	int	count;
+    char **map;
+    int map_size;
+    int x;
+    int y;
 
-	i = 0;
-	count = 0;
-	while (s1[i])
-	{
-		if (verifier(set, s1[i]) == 1)
-		{
-			i++;
-			count++;
-		}
-		else
-			return (count);
-	}
-	return (count);
-}
-
-static int	lastset(const char	*s1, const char *set)
-{
-	int	i;
-	int	count;
-
-	i = ft_strlen(s1) - 1;
-	count = 0;
-	while (i >= 0 && s1[i])
-	{
-		if (verifier(set, s1[i]) == 1)
-		{
-			i--;
-			count++;
-		}
-		else
-			return (count);
-	}
-	return (count);
-}
-
-char	*ft_strtrim(char const *s1, char const *set)
-{
-	int		i;
-	int		size;
-	char	*res;
-	int		j;
-	int		x;
-
-	x = 0;
-	if (!s1 || !set)
-		return (NULL);
-	i = firstset(s1, set);
-	j = lastset(s1, set);
-	if (i == j && j == (int)ft_strlen(s1))
-		res = (char *)malloc(1);
-	else
-	{
-		size = ft_strlen(s1) - i - j;
-		res = (char *)malloc(size + 1);
-		if (!res)
-			return (NULL);
-		size = ft_strlen(s1);
-		while (s1[i] && i < size - j)
-			res[x++] = s1[i++];
-	}
-	res[x] = '\0';
-	return (res);
+    x = 0;
+    y = 0;
+    map_size = 0;
+    map = fill_stock(&map_size);
+    while (y < map_size)
+    {
+        while (map[y][x])
+        {
+			data->x_start = x;
+			data->y_start = y;
+            if (map[y][x] == '1')
+                draw_sq(data, 0xffffff, 30);
+            else if (map[y][x] == '0')
+                draw_sq(data, 4868967,30);
+            else if (map[y][x] == 'N')
+            {
+                draw_sq(data, 7878678,30);//test
+            }
+            x++;
+        }
+        y++;
+        x = 0;
+    }
 }
