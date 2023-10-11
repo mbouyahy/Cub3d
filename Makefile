@@ -1,4 +1,5 @@
-SRCS =	main.c check_map.c ./Get_next_line/get_next_line.c ./Get_next_line/get_next_line_utils.c draw_img.c
+SRCS =	main.c ./drawing_functions/check_map.c ./Get_next_line/get_next_line.c \
+			./Get_next_line/get_next_line_utils.c ./drawing_functions/draw_img.c
 
 OBJS =	${SRCS:.c=.o}
 
