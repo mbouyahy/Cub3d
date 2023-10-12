@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:22:28 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/11 20:48:16 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:14:09 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,55 +20,67 @@
 #include <fcntl.h>
 #include "./Get_next_line/get_next_line.h"
 
-//verified this!!!
-#define UP 124
-#define DOWN 123
-#define LEFT 125
-#define RIGHT 126
+#define UP 126
+#define DOWN 125
+#define LEFT 123
+#define RIGHT 124
+#define CLOSE_WIN 17
+#define ESC 53
+#define W 13
+#define A 0
+#define S 1
+#define D 2
 
-typedef struct s_gamer
+typedef struct s_player
 {
-    int   pos_x;
-    int   pos_y;
-    int     rad;
-    double  m_speed;
-    int     t_dir;
-    int     w_dir;
-    double  r_angle;
-    double   r_speed;
-} t_gamer;
+    double		x;
+    double		y;
+    int			rad;
+    double		m_speed;
+    int			t_dir;
+    int			w_dir;
+    double		r_angle;
+    double		r_speed;
+}	t_player;
+
+typedef struct s_img
+{
+    char	*addr;
+    void	*mlx_img;
+    int		line_len;
+    int		endian;
+    int		bpp;
+}	t_img;
 
 typedef struct s_data
 {
-    int     width_size;
-    int     height_size;
+    int			width_size;
+    int			height_size;
     
-    void	*mlx_ptr;
-    void	*win_ptr;
-    int		x_start;
-    int		y_start;
-    int		color;
-    int		cup;
+    void		*mlx_ptr;
+    void		*win_ptr;
+    int			x_start;
+    int			y_start;
+    int			cup;
 
-    char    **map;
-    int     map_size;
+    char		**map;
+    int			map_size;
 
-    t_gamer     gamer;
-    // int     pos_x;
-    // int     pos_y;
-
-    //img attr
-    char    *addr;
-    void    *mlx_img;
-    int     line_len;
-    int     endian;
-    int     bpp;
+    t_player	player;
+    t_img		img;
 } t_data;
 
-char	**fill_array(int *map_s);
+char	**fill_array(int *map_s);//temporaire
 void    draw_map(t_data *data);
-void    draw_sq(t_data *data, int color, int cup);
+void    draw_square(t_data *data, int color, int cup);
 void	put_img(int x, int y, unsigned int color, t_data *data);
-int     map_size();
+int     map_size();//temporaire
+
+int		ft_strcmp(const char *s1, const char *s2);
+void    init_data(t_data  *data);
+void    redraw(t_data *data);
+void    draw_line(t_data *data);
+int 	player_moves(int btr, t_data *data);
+int		destroy_window(t_data *data);
 
 #endif
