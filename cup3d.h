@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:22:28 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:14:09 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:36:46 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@
 
 typedef struct s_player
 {
-    double		x;
-    double		y;
+    int			x;
+    int			y;
     int			rad;
     double		m_speed;
     int			t_dir;
@@ -71,14 +71,14 @@ typedef struct s_data
 } t_data;
 
 char	**fill_array(int *map_s);//temporaire
-void    draw_map(t_data *data);
+void    draw_map(t_data *data, int flag);
 void    draw_square(t_data *data, int color, int cup);
 void	put_img(int x, int y, unsigned int color, t_data *data);
 int     map_size();//temporaire
 
 int		ft_strcmp(const char *s1, const char *s2);
 void    init_data(t_data  *data);
-void    redraw(t_data *data);
+void    redraw(t_data *data, int flag);
 void    draw_line(t_data *data);
 int 	player_moves(int btr, t_data *data);
 int		destroy_window(t_data *data);

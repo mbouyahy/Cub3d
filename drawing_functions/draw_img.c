@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 19:00:46 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:10:49 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:33:37 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void draw_square(t_data *data, int color, int cup)
     }
 }
 
-void    draw_map(t_data *data)
+void    draw_map(t_data *data, int flag)
 {
     char    **map;
     int     map_size;
@@ -61,7 +61,7 @@ void    draw_map(t_data *data)
                 draw_square(data, 0xffffff, data->cup);
             else if (map[y][x] == '0' || map[y][x] == 'N')
             {
-                if (map[y][x] == 'N')
+                if (map[y][x] == 'N' && flag == 0)
                 {
                     data->player.y = y;
                     data->player.x = x;
@@ -101,11 +101,11 @@ void    draw_line(t_data *data)
     }
 }
 
-void    redraw(t_data *data)
+void    redraw(t_data *data, int flag)
 {
     mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
     data->img.mlx_img = mlx_new_image(data->mlx_ptr, data->width_size, data->height_size);
     data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp, \
                         &data->img.line_len, &data->img.endian);
-    draw_map(data);
+    draw_map(data, flag);
 }

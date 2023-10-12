@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:08:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:11:42 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/12 19:46:27 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void    init_data(t_data  *data)
     data->player.t_dir = 0;
     data->player.w_dir = 0;
     data->player.r_angle = M_PI / 2;
-    data->player.r_speed = 30 * (M_PI / 180);
-    data->player.m_speed = 600;
+    data->player.r_speed = 3 * (M_PI / 180);
+    data->player.m_speed = 50;
 
     //data init
     data->map = fill_array(&data->map_size);
