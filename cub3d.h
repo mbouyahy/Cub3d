@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cup3d.h                                            :+:      :+:    :+:   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:22:28 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:36:46 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:44:06 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUP3D_H
-#define CUP3D_H
+#ifndef CUB3D_H
+#define CUB3D_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,6 +30,7 @@
 #define A 0
 #define S 1
 #define D 2
+#define KEY_PRESS 2
 
 typedef struct s_player
 {
@@ -80,7 +81,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void    init_data(t_data  *data);
 void    redraw(t_data *data, int flag);
 void    draw_line(t_data *data);
-int 	player_moves(int btr, t_data *data);
+int 	key_events(int btr, t_data *data);
 int		destroy_window(t_data *data);
 
 #endif

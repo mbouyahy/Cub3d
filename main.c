@@ -6,11 +6,11 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 19:02:20 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:32:43 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:44:08 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cup3d.h"
+#include "cub3d.h"
 
 int main()
 {
@@ -25,7 +25,7 @@ int main()
     draw_map(&data, 0);
     draw_line(&data);
     mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.mlx_img, 0, 0);
-    mlx_hook(data.win_ptr, CLOSE_WIN, 0, &destroy_window, &data);
-    mlx_key_hook(data.win_ptr, &player_moves, &data);
+    mlx_hook(data.win_ptr, CLOSE_WIN, 0, destroy_window, &data);
+    mlx_hook(data.win_ptr, KEY_PRESS, 0, key_events, &data);// 2 for KeyPress and 3 for KeyRelease
     mlx_loop(data.mlx_ptr);
 }

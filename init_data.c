@@ -6,11 +6,11 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:08:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:46:27 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:45:11 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cup3d.h"
+#include "cub3d.h"
 
 void    init_data(t_data  *data)
 {

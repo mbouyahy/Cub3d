@@ -6,11 +6,11 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 19:00:46 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:33:37 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:44:51 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cup3d.h"
+#include "../cub3d.h"
 
 void	put_img(int x, int y, unsigned int color, t_data *data)
 {
@@ -85,9 +85,10 @@ void    draw_line(t_data *data)
 
     x = data->player.x + data->cup;
     y = data->player.y + data->cup;
-    c = 0;
+    c = 1;
     x_end = x - (c * cos(data->player.r_angle));
     y_end = y - (c * sin(data->player.r_angle));
+    // printf("cos = %f || sin = %f\n", cos(data->player.r_angle), sin(data->player.r_angle));
     while (c < 100)
     {   
         x_end = x - (c * cos(data->player.r_angle));

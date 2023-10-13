@@ -4,7 +4,7 @@ SRCS =	main.c ./drawing_functions/check_map.c ./Get_next_line/get_next_line.c \
 
 OBJS =	${SRCS:.c=.o}
 
-NAME =	Cup3d
+NAME =	Cub3d
 
 RM =	rm -f
 

@@ -6,11 +6,11 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:07:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/12 19:08:25 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:44:53 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cup3d.h"
+#include "../cub3d.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

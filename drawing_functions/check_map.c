@@ -6,11 +6,11 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:10:22 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/10 20:15:08 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 11:44:43 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cup3d.h"
+#include "../cub3d.h"
 
 int	map_size()
 {    
