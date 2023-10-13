@@ -1,6 +1,6 @@
-SRCS =	main.c ./drawing_functions/check_map.c ./Get_next_line/get_next_line.c \
-			./Get_next_line/get_next_line_utils.c ./drawing_functions/draw_img.c\
-			./drawing_functions/utiles.c init_data.c key_event.c
+SRCS =	main.c ./drawing/check_map.c ./Get_next_line/get_next_line.c \
+			./Get_next_line/get_next_line_utils.c ./drawing/draw_img.c\
+			./drawing/utiles.c ./setup/init_data.c ./events/key_event.c
 
 OBJS =	${SRCS:.c=.o}
 

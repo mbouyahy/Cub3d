@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 19:00:46 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/13 11:44:51 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 13:50:57 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void draw_square(t_data *data, int color, int cup)
     {
         while (i < cup)
         {
-            if (data->x_start + i < data->width_size && data->y_start + j < data->height_size)
+            if (data->x_start + i < data->width_size \
+				&& data->y_start + j < data->height_size)
                 put_img(data->x_start + i, data->y_start + j, color, data);
             i++;
         }
@@ -42,63 +43,54 @@ void draw_square(t_data *data, int color, int cup)
 
 void    draw_map(t_data *data, int flag)
 {
-    char    **map;
-    int     map_size;
     int     x;
     int     y;
 
-    x = 0;
-    y = 0;
-    map = data->map;
-    map_size = data->map_size;
-    while (y < map_size)
+    x = -1;
+    y = -1;
+    while (++y < data->map_size)
     {
-        while (map[y][x])
+        while (data->map[y][++x])
         {
 			data->x_start = x;
 			data->y_start = y;
-            if (map[y][x] == '1')
+            if (data->map[y][x] == '1')
                 draw_square(data, 0xffffff, data->cup);
-            else if (map[y][x] == '0' || map[y][x] == 'N')
+            else if (data->map[y][x] == '0' || data->map[y][x] == 'N')
             {
-                if (map[y][x] == 'N' && flag == 0)
+                if (data->map[y][x] == 'N' && flag == 0)
                 {
-                    data->player.y = y;
-                    data->player.x = x;
+                    data->player.y = y * data->cup;
+                    data->player.x = x * data->cup;
                 }
                 draw_square(data, 4868967, data->cup);
             }
-            x++;
         }
-        y++;
-        x = 0;
+        x = -1;
     }
 }
 
 void    draw_line(t_data *data)
 {
-    int x;
-    int y;
-    int x_end;
-    int y_end;
-    int c;
+    t_var	var;
+    int		x_end;
+    int		y_end;
 
-    x = data->player.x + data->cup;
-    y = data->player.y + data->cup;
-    c = 1;
-    x_end = x - (c * cos(data->player.r_angle));
-    y_end = y - (c * sin(data->player.r_angle));
-    // printf("cos = %f || sin = %f\n", cos(data->player.r_angle), sin(data->player.r_angle));
-    while (c < 100)
+    x_end = 0;
+    y_end = 0;
+    var.c = 1;
+    var.x = data->player.x;
+    var.y = data->player.y;
+    while (var.c < 100)
     {   
-        x_end = x - (c * cos(data->player.r_angle));
-        y_end = y - (c * sin(data->player.r_angle));
+        x_end = var.x - (var.c * cos(data->player.r_angle));
+        y_end = var.y - (var.c * sin(data->player.r_angle));
         if (y_end > 0 && x_end > 0)
         {
-            if (y_end < data->width_size && x_end < data->height_size)
-                put_img(y_end, x_end, 0xFF0000, data);
+            if (x_end < data->width_size && y_end < data->height_size)
+                put_img(x_end, y_end, 0xFF0000, data);
         }
-        c++;
+        var.c++;
     }
 }
 

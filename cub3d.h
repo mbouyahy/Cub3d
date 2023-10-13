@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:22:28 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/13 11:44:06 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:34:44 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,13 @@ typedef struct s_img
     int		bpp;
 }	t_img;
 
+typedef struct s_var
+{
+    int x;
+    int y;
+    int c;
+} t_var;
+
 typedef struct s_data
 {
     int			width_size;
@@ -67,8 +74,8 @@ typedef struct s_data
     char		**map;
     int			map_size;
 
-    t_player	player;
     t_img		img;
+    t_player	player;
 } t_data;
 
 char	**fill_array(int *map_s);//temporaire
