@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 19:00:46 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/13 13:50:57 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:19:55 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,24 +75,92 @@ void    draw_line(t_data *data)
     t_var	var;
     int		x_end;
     int		y_end;
+    // double  fov;
+    double  angle;
 
+    // fov = 60.0;
     x_end = 0;
     y_end = 0;
     var.c = 1;
     var.x = data->player.x;
     var.y = data->player.y;
-    while (var.c < 100)
-    {   
-        x_end = var.x - (var.c * cos(data->player.r_angle));
-        y_end = var.y - (var.c * sin(data->player.r_angle));
-        if (y_end > 0 && x_end > 0)
-        {
-            if (x_end < data->width_size && y_end < data->height_size)
-                put_img(x_end, y_end, 0xFF0000, data);
+    angle = data->player.r_angle;
+    int s = 60;
+    while (--s)
+    {
+        while (var.c < 500)
+        {   
+            x_end = var.x - (var.c * cos(angle));
+            y_end = var.y - (var.c * sin(angle));
+            if (y_end > 0 && x_end > 0)
+            {
+                if (x_end < data->width_size && y_end < data->height_size)
+                    put_img(x_end, y_end, 0xFF0000, data);
+            }
+            var.c++;
         }
-        var.c++;
+        angle += deg_to_rad(60) / data->height_size * 5;
+        var.c = 1;
     }
 }
+
+// void    draw_line(t_data *data)
+// {
+//     t_var	var;
+//     int		x_end;
+//     int		y_end;
+//     double  fov;
+//     double  angle;
+
+//     fov = 60.0;
+//     x_end = 0;
+//     y_end = 0;
+//     var.c = 1;
+//     var.x = data->player.x;
+//     var.y = data->player.y;
+//     angle = deg_to_rad(60) / data->height_size * 5;
+//     int s = 60;
+//     while (--s)
+//     {
+//         while (var.c < 500)
+//         {   
+//             x_end = var.x - (var.c * cos(angle));
+//             y_end = var.y - (var.c * sin(angle));
+//             if (y_end > 0 && x_end > 0)
+//             {
+//                 if (x_end < data->width_size && y_end < data->height_size)
+//                     put_img(x_end, y_end, 0xFF0000, data);
+//             }
+//             var.c++;
+//         }
+//         angle += deg_to_rad(60) / data->height_size * 5;
+//         var.c = 1;
+//     }
+// }
+
+// void    draw_line(t_data *data)
+// {
+//     t_var	var;
+//     int		x_end;
+//     int		y_end;
+
+//     x_end = 0;
+//     y_end = 0;
+//     var.c = 1;
+//     var.x = data->player.x;
+//     var.y = data->player.y;
+//     while (var.c < 500)
+//     {   
+//         x_end = var.x - (var.c * cos(data->player.r_angle));
+//         y_end = var.y - (var.c * sin(data->player.r_angle));
+//         if (y_end > 0 && x_end > 0)
+//         {
+//             if (x_end < data->width_size && y_end < data->height_size)
+//                 put_img(x_end, y_end, 0xFF0000, data);
+//         }
+//         var.c++;
+//     }
+// }
 
 void    redraw(t_data *data, int flag)
 {

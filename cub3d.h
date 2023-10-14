@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:22:28 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/13 14:34:44 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:06:41 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ void    redraw(t_data *data, int flag);
 void    draw_line(t_data *data);
 int 	key_events(int btr, t_data *data);
 int		destroy_window(t_data *data);
+float   deg_to_rad(int deg);
 
 #endif

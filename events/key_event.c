@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:24 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/13 21:42:10 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:18:36 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,24 @@ void    player_moves(int btr, t_data *data)
     }
     else if (btr == A)
     {
-        // step = 0.1 * data->player.m_speed;
-        data->player.y--;
-        // data->player.x += deg_cos(90);
-        // data->player.y += deg_sin(90);
+        step = 0.1 * data->player.m_speed;
+        // data->player.y--;
+        data->player.x += deg_cos(90) * step;//test
+        data->player.y -= deg_sin(90) * step;//test
     }
     else if (btr == D)
     {
-        // step = 0.1 * data->player.m_speed;
-        data->player.y++;
-        // data->player.x -= deg_cos(90);
-        // data->player.y -= deg_sin(90);
+        step = 0.1 * data->player.m_speed;
+        // data->player.y++;
+        data->player.x -= deg_cos(90) * step;//test
+        data->player.y += deg_sin(90) * step;//test
     }
 }
 
 void    change_view(int btr, t_data *data)
 {
-    //  if (btr == UP)
-    //     {
-    //         data->player.t_dir = -1;
-    //         data->player.r_angle += data->player.t_dir * data->player.r_speed;
-    //     }
-    //     else if (btr == DOWN)
-    //     {
-    //         data->player.t_dir = 1;
-    //         data->player.r_angle += data->player.t_dir * data->player.r_speed;
-    //     }
-    //     else 
+    if (btr == RIGHT || btr == LEFT)
+    {
         if (btr == LEFT)
         {
             data->player.w_dir = -1;
@@ -98,11 +89,12 @@ void    change_view(int btr, t_data *data)
             data->player.w_dir = 1;
             data->player.r_angle += data->player.w_dir * data->player.r_speed;
         }
+    }
 }
 
 int key_events(int btr, t_data *data)
 {
-    if (btr == UP || btr == DOWN || btr == LEFT || btr == RIGHT \
+    if (btr == LEFT || btr == RIGHT \
         || btr == W || btr == A || btr == S || btr == D)
     {
         change_view(btr, data);
