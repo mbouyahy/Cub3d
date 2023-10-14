@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 19:02:20 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/13 13:44:41 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/14 15:07:08 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int main()
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, \
 						&data.img.line_len, &data.img.endian);
     draw_map(&data, 0);
+    setup_angle(&data);
     draw_line(&data);
     mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.mlx_img, 0, 0);
     mlx_hook(data.win_ptr, CLOSE_WIN, 0, destroy_window, &data);

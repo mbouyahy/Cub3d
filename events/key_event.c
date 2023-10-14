@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:24 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/14 11:18:36 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/14 11:23:35 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ void    player_moves(int btr, t_data *data)
     int step;
     int x_pos;
     int y_pos;
-    
-    // step = 5;
+
     step = 0;
     x_pos = 0;
     y_pos = 0;

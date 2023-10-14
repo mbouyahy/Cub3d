@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 20:22:28 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/14 11:06:41 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/14 16:31:44 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,18 @@ typedef struct s_player
     int			y;
     int			rad;
     double		m_speed;
-    int			t_dir;
+    // int			t_dir;
     int			w_dir;
     double		r_angle;
     double		r_speed;
+    char        p_direction;
 }	t_player;
+
+typedef struct s_distance
+{
+    float   dist;
+    float   inter;
+} t_distance;
 
 typedef struct s_img
 {
@@ -69,18 +76,19 @@ typedef struct s_data
     void		*win_ptr;
     int			x_start;
     int			y_start;
-    int			cup;
+    int			cub;
 
     char		**map;
     int			map_size;
 
     t_img		img;
     t_player	player;
+    t_distance  dist;
 } t_data;
 
 char	**fill_array(int *map_s);//temporaire
 void    draw_map(t_data *data, int flag);
-void    draw_square(t_data *data, int color, int cup);
+void    draw_square(t_data *data, int color, int cub);
 void	put_img(int x, int y, unsigned int color, t_data *data);
 int     map_size();//temporaire
 
@@ -91,5 +99,8 @@ void    draw_line(t_data *data);
 int 	key_events(int btr, t_data *data);
 int		destroy_window(t_data *data);
 float   deg_to_rad(int deg);
+void    setup_angle(t_data *data);
+void	horizontal_intersection(t_data *data);
+void	vertical_intersection(t_data *data);
 
 #endif
