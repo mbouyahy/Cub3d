@@ -3,66 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/10 11:42:41 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/10 13:05:31 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/11/16 16:13:39 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/04/11 19:34:39 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	array_len(long long int nb)
+int	ft_countdigit(long long n)
 {
-	int	i;
-
-	i = 1;
-	if (nb < 0)
-		nb *= -1;
-	while (nb >= 10)
-	{
-		nb /= 10;
-		i++;
-	}
-	return (i);
+	if (n / 10 == 0)
+		return (1);
+	return (1 + ft_countdigit(n / 10));
 }
 
-static int	verifier(int n, int *i)
+char	*ft_maxint(int n, int count)
 {
-	if (n < 0)
+	char	*arr;
+	int		i;
+
+	n /= 10;
+	n *= -1;
+	arr = (char *)malloc((count + 2) * sizeof(char));
+	if (!arr)
+		return (NULL);
+	arr[0] = '-';
+	arr[count + 1] = 0;
+	arr[count] = '8';
+	i = 0;
+	while (i < count - 1)
 	{
-		*i = 1;
-		return (1);
+		arr[count - 1 - i] = (n % 10) + 48;
+		n /= 10;
+		i++;
 	}
-	else
-		return (0);
+	return (arr);
+}
+
+char	*ft_isneg(int n, int count)
+{
+	char	*arr;
+	int		i;
+
+	if (n == -2147483648)
+		return (ft_maxint(n, count));
+	n *= -1;
+	arr = (char *)malloc((count + 2) * sizeof(char));
+	if (!arr)
+		return (NULL);
+	arr[0] = '-';
+	arr[count + 1] = 0;
+	i = 0;
+	while (i < count)
+	{
+		arr[count - i] = (n % 10) + 48;
+		n /= 10;
+		i++;
+	}
+	return (arr);
 }
 
 char	*ft_itoa(int n)
 {
-	char			*tab;
-	unsigned int	nb;
-	int				len;
-	int				i;
+	char	*arr;
+	int		i;
+	int		num;
 
-	i = 0;
-	len = array_len(n);
+	num = ft_countdigit(n);
 	if (n < 0)
-		len++;
-	tab = (char *)malloc(len + 1);
-	if (!tab)
+		return (ft_isneg(n, num));
+	arr = (char *)malloc((num + 1) * sizeof(char));
+	if (!arr)
 		return (NULL);
-	tab[len] = '\0';
-	if (verifier(n, &i) == 1)
+	arr[num] = 0;
+	i = 0;
+	while (i < num)
 	{
-		n *= -1;
-		tab[0] = '-';
+		arr[num - 1 - i] = (n % 10) + 48;
+		n /= 10;
+		i++;
 	}
-	nb = n;
-	while (--len >= i)
-	{
-		tab[len] = (nb % 10) + '0';
-		nb /= 10;
-	}
-	return (tab);
+	return (arr);
 }

@@ -1,38 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_event.c                                        :+:      :+:    :+:   */
+/*   key_events.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:24 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/14 11:23:35 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/15 19:12:45 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
-
-int	destroy_window(t_data *data)
-{
-	//check leaks
-    (void)data;
-	exit(0);
-}
-
-float   deg_to_rad(int deg)
-{
-    return (deg * (M_PI / 180));   
-}
-
-float   deg_cos(int deg)
-{
-    return (deg_to_rad(deg));
-}
-
-float   deg_sin(int deg)
-{
-    return (deg_to_rad(deg));
-}
+#include "../cub.h"
 
 void    player_moves(int btr, t_data *data)
 {
@@ -45,32 +23,24 @@ void    player_moves(int btr, t_data *data)
     y_pos = 0;
     if (btr == W)
     {
-        // data->player.x -= step;
-        step = 0.1 * data->player.m_speed;
+        step = 0.1 * data->player.m_speed;//temp
         data->player.x -= cos(data->player.r_angle) * step;
         data->player.y -= sin(data->player.r_angle) * step;
         // printf("palyer_x = %d || step = %d || t_dir = %d\n", data->player.x, step, data->player.t_dir);
     }
     else if (btr == S)
     {
-        // data->player.x += step;
-        step = 0.1 * data->player.m_speed;
+        step = 0.1 * data->player.m_speed;//temp
         data->player.x += cos(data->player.r_angle) * step;
         data->player.y += sin(data->player.r_angle) * step;
     }
-    else if (btr == A)
+    else if (btr == A)//Not work
     {
-        step = 0.1 * data->player.m_speed;
-        // data->player.y--;
-        data->player.x += deg_cos(90) * step;//test
-        data->player.y -= deg_sin(90) * step;//test
+        data->player.y--;
     }
-    else if (btr == D)
+    else if (btr == D)//Not work
     {
-        step = 0.1 * data->player.m_speed;
-        // data->player.y++;
-        data->player.x -= deg_cos(90) * step;//test
-        data->player.y += deg_sin(90) * step;//test
+        data->player.y++;
     }
 }
 

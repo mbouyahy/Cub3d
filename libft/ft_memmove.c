@@ -3,35 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/08 19:30:09 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/14 20:10:29 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/11/07 18:47:05 by jlaazouz          #+#    #+#             */
+/*   Updated: 2022/11/20 15:16:20 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dest, const void *src, size_t len)
 {
 	size_t	i;
-	char	*dst_char;
-	char	*src_char;
+	char	*dst;
+	char	*srcs;
 
-	i = 0;
-	if (!dst && !src)
-		return (NULL);
-	dst_char = (char *)dst;
-	src_char = (char *)src;
-	if (src_char < dst_char)
+	dst = (char *)dest;
+	srcs = (char *)src;
+	if (!dst && !srcs)
+		return ("");
+	if (dst > srcs)
 	{
 		while (len > 0)
 		{
-			dst_char[len - 1] = src_char[len - 1];
+			dst[len - 1] = srcs[len - 1];
 			len--;
 		}
 	}
 	else
-		ft_memcpy(dst_char, src_char, len);
-	return (dst_char);
+	{
+		i = -1;
+		while (++i < len)
+			dst[i] = srcs[i];
+	}
+	return (dst);
 }

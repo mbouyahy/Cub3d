@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 19:24:22 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/14 20:07:45 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/10/26 15:00:07 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/10/08 21:22:28 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_back(t_list **lst, t_list *new)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	t_list	*t;
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
 
-	if (!lst || !new)
-		return ;
-	if (*lst)
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	i = 0;
+	while (str1[i] || str2[i])
 	{
-		t = ft_lstlast(*lst);
-		t->next = new;
+		if (str1[i] != str2[i])
+			return (str1[i] - str2[i]);
+		i++;
 	}
-	else
-		*lst = new;
+	return (0);
 }

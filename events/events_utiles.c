@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   events_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 18:29:34 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/13 19:35:01 by mbouyahy         ###   ########.fr       */
+/*   Created: 2023/10/15 19:08:47 by mbouyahy          #+#    #+#             */
+/*   Updated: 2023/10/15 19:09:20 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../cub.h"
 
-t_list	*ft_lstnew(void	*content)
+float   deg_to_rad(int deg)
 {
-	t_list	*newlist;
+    return (deg * (M_PI / 180));   
+}
 
-	newlist = (t_list *)malloc(sizeof(t_list));
-	if (!newlist)
-		return (NULL);
-	newlist->content = content;
-	newlist->next = NULL;
-	return (newlist);
+float   deg_cos(int deg)
+{
+    return (deg_to_rad(deg));
+}
+
+float   deg_sin(int deg)
+{
+    return (deg_to_rad(deg));
+}
+
+int	destroy_window(t_data *data)
+{
+	//check leaks
+    (void)data;
+	exit(0);
 }

@@ -1,28 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstsize.c                                       :+:      :+:    :+:   */
+/*   ft_ptr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 15:37:31 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/13 19:35:16 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/11/24 19:06:53 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/03/23 14:46:00 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_lstsize(t_list *lst)
+int	ft_countptr(unsigned long n)
 {
 	int	i;
 
-	if (!lst)
-		return (0);
 	i = 0;
-	while (lst != NULL)
+	if (n == 0)
+		i++;
+	while (n > 0)
 	{
-		lst = lst->next;
+		n /= 16;
 		i++;
 	}
 	return (i);
+}
+
+void	ft_putptr(unsigned long n)
+{
+	if (n > 15)
+		ft_putptr(n / 16);
+	ft_putchar("0123456789abcdef"[n % 16]);
+}
+
+int	ft_ptr(unsigned long n)
+{
+	int	a;
+
+	write(1, "0x", 2);
+	ft_putptr(n);
+	a = ft_countptr(n);
+	return (a + 2);
 }

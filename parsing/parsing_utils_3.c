@@ -1,21 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   parsing_utils_3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 15:12:07 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/13 19:34:18 by mbouyahy         ###   ########.fr       */
+/*   Created: 2023/10/12 19:40:26 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/10/12 20:54:41 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../cub.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+int	is_whitespace(char *str)
 {
-	if (!lst || !del)
-		return ;
-	del(lst->content);
-	free(lst);
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+void	double_print(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		printf("%s\n", str[i++]);
 }

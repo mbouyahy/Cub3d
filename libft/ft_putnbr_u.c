@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_front.c                                  :+:      :+:    :+:   */
+/*   ft_putnbr_u.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/12 15:10:05 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/13 19:33:51 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/11/23 22:12:16 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/03/23 14:54:50 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+int	ft_putnbr_u(unsigned int n)
 {
-	if (!lst || !new)
-		return ;
-	new->next = *lst;
-	*lst = new;
+	if (n > 9)
+		ft_putnbr_u(n / 10);
+	ft_putchar((n % 10) + 48);
+	return (ft_countdigit_p((unsigned int)n));
 }

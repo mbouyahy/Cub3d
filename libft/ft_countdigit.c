@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   ft_countdigit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/13 18:27:36 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/14 21:42:59 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/11/24 17:00:45 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/03/23 14:53:38 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **list, void (*del)(void *))
+int	ft_countdigit_p(unsigned int n)
 {
-	t_list	*temp;
-
-	if (!list || !del)
-		return ;
-	while (*list)
-	{
-		temp = (*list)->next;
-		ft_lstdelone(*list, del);
-		*list = temp;
-	}
-	*list = NULL;
+	if (n / 10 == 0)
+		return (1);
+	return (1 + ft_countdigit_p(n / 10));
 }

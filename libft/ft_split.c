@@ -3,74 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/11 10:08:37 by mbouyahy          #+#    #+#             */
-/*   Updated: 2022/10/14 21:45:04 by mbouyahy         ###   ########.fr       */
+/*   Created: 2022/11/20 01:34:50 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/03/29 22:07:15 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_nphrase(const char *str, char c)
+int	ft_words(const char *str, char c)
 {
 	int	i;
-	int	count;
+	int	size;
 
 	i = 0;
-	count = 0;
+	size = 0;
+	if (str[i] != c && str[i])
+		size++;
 	while (str[i])
 	{
-		while (str[i] == c)
-			i++;
-		if (str[i])
-		{
-			while (str[i] != c && str[i])
-				i++;
-		count++;
-		}
+		if (str[i] == c && str[i + 1] != c && str[i + 1])
+			size++;
+		i++;
 	}
-	return (count);
+	return (size);
 }
 
-static int	ft_nchar(const char *str, char c, int j)
+char	*ft_fill(const char *str, int start, int end)
 {
-	int	count;
+	char	*word;
+	int		i;
 
-	count = 0;
-	while (str[j] != c && str[j])
+	i = 0;
+	word = malloc((end - start + 1) * sizeof(char));
+	while (start < end)
 	{
-		j++;
-		count++;
+		word[i] = str[start];
+		i++;
+		start++;
 	}
-	return (count);
+	word[i] = 0;
+	return (word);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		i;
-	int		j;
-	char	**str;
-	int		x;
+	char	**split;
+	int		flag;
+	size_t	i;
+	size_t	j;
 
-	x = 0;
+	split = malloc((ft_words(s, c) + 1) * sizeof(char *));
+	if (!split)
+		return (0);
+	flag = -1;
 	i = 0;
-	str = (char **)malloc((ft_nphrase(s, c) + 1) * sizeof(char *));
-	if (!str)
-		return (NULL);
-	while (i < ft_nphrase(s, c))
+	j = 0;
+	while (i <= ft_strlen(s))
 	{
-		j = 0;
-		while (s[x] == c)
-			x++;
-		str[i] = (char *)malloc(ft_nchar(s, c, x) + 1);
-		if (!str[i])
-			return (NULL);
-		while (s[x] && s[x] != c)
-			str[i][j++] = s[x++];
-		str[i][j] = '\0';
+		if (s[i] != c && flag < 0)
+			flag = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && flag >= 0)
+		{
+			split[j++] = ft_fill(s, flag, i);
+			flag = -1;
+		}
 		i++;
 	}
-	str[i] = NULL;
-	return (str);
+	split[j] = 0;
+	return (split);
 }
+
+//
