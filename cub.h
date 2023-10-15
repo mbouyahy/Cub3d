@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/15 19:42:25 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/15 20:48:54 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,14 +109,14 @@ typedef struct s_visuals
 #define CLOSE_WIN 17
 #define ESC 53
 
-/*---------------------------<Movements Functions>---------------------------*/
+/*------------------------<Movements Functions>-----------------------*/
 
 #define W 13
 #define A 0
 #define S 1
 #define D 2
 
-/*---------------------------<Movements Functions>---------------------------*/
+/*------------------------<Movements Functions>------------------------*/
 
 #define KEY_PRESS 2
 

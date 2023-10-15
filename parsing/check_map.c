@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:23:39 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:15:29 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/15 20:13:26 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,13 @@
 
 int	check_point_surrounding(t_data *cub, int i, int j)
 {
-	if (!(cub->map_grid[i][j + 1] == '0' || cub->map_grid[i][j + 1] == '1'
-			|| cub->map_grid[i][j + 1] == 'N' || cub->map_grid[i][j + 1] == 'S'
-			|| cub->map_grid[i][j + 1] == 'E' || cub->map_grid[i][j
-			+ 1] == 'W'))
+	if (cub->map_grid[i][j + 1] == ' ')
 		return (ft_error(CLIFF_FOUND));
-	else if (!(cub->map_grid[i][j - 1] == '0' || cub->map_grid[i][j - 1] == '1'
-				|| cub->map_grid[i][j - 1] == 'N' || cub->map_grid[i][j
-				- 1] == 'S' || cub->map_grid[i][j - 1] == 'E'
-				|| cub->map_grid[i][j - 1] == 'W'))
+	else if (cub->map_grid[i][j - 1] == ' ')
 		return (ft_error(CLIFF_FOUND));
-	else if (!(cub->map_grid[i + 1][j] == '0' || cub->map_grid[i + 1][j] == '1'
-				|| cub->map_grid[i + 1][j] == 'N' || cub->map_grid[i
-				+ 1][1] == 'S' || cub->map_grid[i + 1][j] == 'E'
-				|| cub->map_grid[i + 1][1] == 'W'))
+	else if (cub->map_grid[i + 1][j] == ' ')
 		return (ft_error(CLIFF_FOUND));
-	else if (!(cub->map_grid[i - 1][j] == '0' || cub->map_grid[i - 1][j] == '1'
-				|| cub->map_grid[i - 1][j] == 'N' || cub->map_grid[i
-				- 1][j] == 'S' || cub->map_grid[i - 1][j] == 'E'
-				|| cub->map_grid[i - 1][j] == 'W'))
+	else if (cub->map_grid[i - 1][j] == ' ')
 		return (ft_error(CLIFF_FOUND));
 	return (EXIT_SUCCESS);
 }
