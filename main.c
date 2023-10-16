@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:23:01 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/15 19:00:36 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:00:46 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int ac, char **av)
     draw_line(&data);
     mlx_put_image_to_window(data.mlx_ptr, data.win_ptr, data.img.mlx_img, 0, 0);
     mlx_hook(data.win_ptr, CLOSE_WIN, 0, destroy_window, &data);
-    mlx_hook(data.win_ptr, KEY_PRESS, 0, key_events, &data);// 2 for KeyPress and 3 for KeyRelease
+    mlx_hook(data.win_ptr, KEY_PRESS, 0, key_events, &data);//2 for KeyPress and 3 for KeyRelease
     mlx_loop(data.mlx_ptr);
 	// system("leaks cub");
 	return (0);

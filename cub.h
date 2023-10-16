@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 10:55:35 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:32:43 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,7 @@ void				redraw(t_data *data, int flag);
 void				setup_angle(t_data *data);
 void				put_img(int x, int y, unsigned int color, t_data *data);
 void				draw_line(t_data *data);
+void				find_distance(t_data *data, int i, t_var *var);//NOT USED!!!!!
 int					horizontal_intersection(t_data *data);
 int					vertical_intersection(t_data *data);
 int					find_coordinate(t_data *data, int next_point, double *step);

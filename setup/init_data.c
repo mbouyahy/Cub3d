@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:08:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 10:51:42 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:25:16 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ void    init_data(t_data  *data)
     data->x_start = 0;
     data->y_start = 0;
     data->cub = 60;
-    data->ray_length = 200;
     data->fov = 60 * (M_PI / 180);
     data->width_size = (data->map_collums - 1) * data->cub;//work with max_size in the code of jihad
     data->height_size = data->map_rows * data->cub;
+    // data->ray_length = data->width_size - data->player.x;
+    // printf("ray len : %d\n", data->ray_length);
 }
