@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:08:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 20:19:17 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:22:59 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    init_data(t_data  *data)
     data->player.rad = 3;
     data->player.w_dir = 0;
     data->player.r_angle = M_PI / 2;
-    data->player.r_speed = 3 * (M_PI / 180);
+    data->player.r_speed = 10 * (M_PI / 180);
     data->player.m_speed = 50;
     data->player.p_direction = '\0';
 }
