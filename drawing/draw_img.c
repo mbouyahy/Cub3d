@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 19:00:46 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 18:49:21 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 19:37:09 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void    draw_single_line(t_var *var, t_data *data)
         var->y_end = var->y - (var->c * sin(var->angle));
         grid_x = var->x_end / data->cub;
         grid_y = var->y_end / data->cub;
-        if (data->map[grid_y][grid_x] == '1' \
-            || (data->map[grid_y - 1][grid_x] == '1' && data->map[grid_y][grid_x -1] == '1'))
+        if (data->map[grid_y][grid_x] == '1' || (data->map[grid_y][grid_x] == '0' && data->map[grid_y - 1][grid_x] == '1' \
+            && data->map[grid_y][grid_x - 1] == '1' && data->map[grid_y - 1][grid_x - 1] != '1'))
             break ;
         if (var->y_end > 0 && var->x_end > 0)
         {
