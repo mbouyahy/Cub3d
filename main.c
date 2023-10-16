@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:23:01 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 16:00:45 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:20:54 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av)
 
     init_data(&data);
     data.mlx_ptr = mlx_init();
-    data.win_ptr = mlx_new_window(data.mlx_ptr, data.width_size, data.height_size, "Mbouyahy & Jlaazouz");
+    data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT, "Mbouyahy & Jlaazouz");
     data.img.mlx_img = mlx_new_image(data.mlx_ptr, data.width_size, data.height_size);
 	data.img.addr = mlx_get_data_addr(data.img.mlx_img, &data.img.bpp, \
 						&data.img.line_len, &data.img.endian);

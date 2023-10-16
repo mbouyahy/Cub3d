@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 18:01:15 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:21:07 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ typedef struct s_visuals
 /*------------------------<Movements Functions>------------------------*/
 
 #define KEY_PRESS 2
+#define WINDOW_WIDTH 1920
+#define WINDOW_HEIGHT 1080
 
 typedef struct s_img
 {

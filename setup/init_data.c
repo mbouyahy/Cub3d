@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:08:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 17:55:10 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 20:19:17 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ void    init_data(t_data  *data)
     data->map_size = data->map_rows;
     data->x_start = 0;
     data->y_start = 0;
-    data->cub = 60;
+    //dynamic cub => 
+    // data->cub = 20;
     data->inside = 0;
     data->fov = 60 * (M_PI / 180);
-    data->width_size = (data->map_collums - 1) * data->cub;//work with max_size in the code of jihad
-    data->height_size = data->map_rows * data->cub;
+    data->width_size = WINDOW_WIDTH / 3;//work with max_size in the code of jihad
+    data->height_size = WINDOW_HEIGHT / 3;//
+    data->cub = WINDOW_WIDTH < 1000 ? 10 : 20;
+    // data->width_size = (data->map_collums - 1) * data->cub;//work with max_size in the code of jihad
+    // data->height_size = data->map_rows * data->cub;
     
     //player init
     // data->player.x = 0;
