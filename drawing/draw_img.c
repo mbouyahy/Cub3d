@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/10 19:00:46 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/15 19:30:49 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 10:57:46 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,20 @@ void    init_var(t_var *var, t_data *data)
     var->y = data->player.y;
     var->x_end = 0;
     var->y_end = 0;
-    var->angle = data->player.r_angle;
-    var->angle_inc = deg_to_rad(60) / data->height_size * 3;//temp
+    var->angle = data->player.r_angle - (data->fov / 2);
+    var->angle_inc = data->fov / data->width_size;
 }
 
 void    draw_line(t_data *data)
 {
     t_var	var;
-    int     line_numbers;
     int     grid_x;
     int     grid_y;
 
     init_var(&var, data);
-    line_numbers = 320;//temp
     grid_x = 0;
     grid_y = 0;
-    while (var.i < line_numbers)
+    while (var.i < data->width_size)
     {
         while (var.c < data->ray_length)
         {   

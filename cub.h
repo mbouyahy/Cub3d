@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/15 20:48:54 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 10:55:35 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ typedef struct s_data
     int				x_start;
     int				y_start;
     int				cub;
-    int				fov;
+    double			fov;
     int				ray_length;
 
     char			**map;
