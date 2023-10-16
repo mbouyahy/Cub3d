@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 20:20:25 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/13 12:37:39 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:52:36 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	ft_map_checks(t_data *cub, int ac, char *map_name)
 		printf("BAD MAP\n");
 		return (EXIT_FAILURE);
 	}
-	else
-		printf("GOOD MAP\n");
-	printf("x : %d\n", cub->player.x);
-	printf("y : %d\n", cub->player.y);
+	// else
+	// 	printf("GOOD MAP\n");
+	// printf("x : %d\n", cub->player.x);
+	// printf("y : %d\n", cub->player.y);
 	return (EXIT_SUCCESS);
 }

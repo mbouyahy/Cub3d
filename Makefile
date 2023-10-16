@@ -6,7 +6,7 @@
 #    By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/09 16:54:22 by jlaazouz          #+#    #+#              #
-#    Updated: 2023/10/16 11:51:24 by mbouyahy         ###   ########.fr        #
+#    Updated: 2023/10/16 17:46:13 by mbouyahy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ LIBFT = libft/libft.a
 
 CC = cc 
 
-CFLAGS = -Wall -Wextra -Werror -ffast-math -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -ffast-math -fsanitize=address
 
 RM = rm -rf
 

@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 15:32:43 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 18:01:15 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ typedef struct s_data
     int				cub;
     double			fov;
     int				ray_length;
+    int				inside;
 
     char			**map;
     int				map_size;

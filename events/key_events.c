@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:24 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 15:32:01 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:55:47 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,49 @@
 void    player_moves(int btr, t_data *data)
 {
     int step;
-    int x_pos;
-    int y_pos;
+    int grid_x;
+    int grid_y;
 
-    step = 3;
-    x_pos = 0;
-    y_pos = 0;
+    step = 3;//temp
     if (btr == W)
     {
-        data->player.x -= cos(data->player.r_angle) * step;
-        data->player.y -= sin(data->player.r_angle) * step;
-        // printf("palyer_x = %d || step = %d || t_dir = %d\n", data->player.x, step, data->player.t_dir);
+		grid_x = (data->player.x - cos(data->player.r_angle) * step) / data->cub;
+    	grid_y = (data->player.y - sin(data->player.r_angle) * step) / data->cub;
+		if (data->map[grid_y][grid_x] == '0' ||  ft_strchr(MAP_DIRECTIONS, data->map[grid_y][grid_x]))
+        {
+			data->player.x -= cos(data->player.r_angle) * step;
+			data->player.y -= sin(data->player.r_angle) * step;
+		}
     }
     else if (btr == S)
     {
-        data->player.x += cos(data->player.r_angle) * step;
-        data->player.y += sin(data->player.r_angle) * step;
+		grid_x = (data->player.x + cos(data->player.r_angle) * step) / data->cub;
+    	grid_y = (data->player.y + sin(data->player.r_angle) * step) / data->cub;
+		if (data->map[grid_y][grid_x] == '0' || ft_strchr(MAP_DIRECTIONS, data->map[grid_y][grid_x]))
+        {
+			data->player.x += cos(data->player.r_angle) * step;
+			data->player.y += sin(data->player.r_angle) * step;
+		}
     }
-    else if (btr == A)//Not work
+    else if (btr == A)//Not work yet
     {
-        data->player.x += cos(90 - data->player.r_angle) * step;
-        data->player.y += sin(90 - data->player.r_angle) * step;
+		grid_x = (data->player.x + cos(90 - data->player.r_angle) * step) / data->cub;
+    	grid_y = (data->player.y + sin(90 - data->player.r_angle) * step) / data->cub;
+		if (data->map[grid_y][grid_x] == '0' || ft_strchr(MAP_DIRECTIONS, data->map[grid_y][grid_x]))
+        {
+			data->player.x += cos(90 - data->player.r_angle) * step;
+			data->player.y += sin(90 - data->player.r_angle) * step;
+		}
     }
-    else if (btr == D)//Not work
+    else if (btr == D)//Not work yet
     {
-        data->player.x -= cos(90 - data->player.r_angle) * step;
-        data->player.y -= sin(90 - data->player.r_angle) * step;
+		grid_x = (data->player.x - cos(90 - data->player.r_angle) * step) / data->cub;
+    	grid_y = (data->player.y - sin(90 - data->player.r_angle) * step) / data->cub;
+		if (data->map[grid_y][grid_x] == '0' || ft_strchr(MAP_DIRECTIONS, data->map[grid_y][grid_x]))
+        {
+			data->player.x -= cos(90 - data->player.r_angle) * step;
+			data->player.y -= sin(90 - data->player.r_angle) * step;
+		}
     }
 }
 

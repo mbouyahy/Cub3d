@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 14:35:29 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 15:32:10 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:58:46 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void draw_square(t_data *data, int color, int cub)
 
     data->x_start *= cub;
     data->y_start *= cub;
-    while (j < cub)
+    while (j <= cub)
     {
-        while (i < cub)
+        while (i <= cub)
         {
             if (data->x_start + i < data->width_size \
 				&& data->y_start + j < data->height_size)
@@ -89,7 +89,7 @@ void    draw_map(t_data *data, int flag)
             }
             else if (data->map[y][x] == '0' || ft_strchr(MAP_DIRECTIONS, data->map[y][x]))
             {
-                 if (ft_strchr(MAP_DIRECTIONS, data->map[y][x]) && flag == 0)//test
+                if (ft_strchr(MAP_DIRECTIONS, data->map[y][x]) && flag == 0)//test
                 {
                     data->player.p_direction = data->map[y][x];
                     //(data->cub / 2) for put the player in the center of cub
