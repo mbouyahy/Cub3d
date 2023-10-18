@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:23:01 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 20:20:54 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/18 22:01:20 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int	main(int ac, char **av)
     mlx_hook(data.win_ptr, CLOSE_WIN, 0, destroy_window, &data);
     mlx_hook(data.win_ptr, KEY_PRESS, 0, key_events, &data);//2 for KeyPress and 3 for KeyRelease
     mlx_loop(data.mlx_ptr);
-	// system("leaks cub");
+	// system("leaks cub");   
 	return (0);
 }
