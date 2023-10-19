@@ -3,16 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   events_utiles.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 19:08:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/15 19:09:20 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/18 23:32:30 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-float   deg_to_rad(int deg)
+float   rad_to_deg(float rad)
+{
+    return (rad * (180 / M_PI));   
+}
+
+float   deg_to_rad(float deg)
 {
     return (deg * (M_PI / 180));   
 }

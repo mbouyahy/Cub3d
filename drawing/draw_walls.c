@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_walls.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:24:41 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 14:38:29 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:33:50 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void    drawline_(t_data *data, t_var *var, int x_start, int x_end, int y_end, i
     var->c = i;
     while (x_start < y_end)
     {   
-        var->x_end = x_end - (var->c * cos(var->angle));
-        var->y_end = y_end - (var->c * sin(var->angle));
+        var->x_end = x_end - (var->c * cos(var->angle + var->rotate));
+        var->y_end = y_end - (var->c * sin(var->angle + var->rotate));
         if (y_end > 0 && x_end > 0)
         {
-            printf("DONE\n");
+            // printf("DONE\n");
             if (x_end < data->width_size && y_end < data->height_size)
                 put_img(x_start, y_end, 0xFF0000, data);
         }

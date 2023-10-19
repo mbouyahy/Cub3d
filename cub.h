@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 20:21:07 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/19 10:47:03 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,13 @@ typedef struct s_var
     int		y;
     int		c;
     int		i;
+	double	rotate;
+	double  move_x;
+	double  move_y;
 	int		x_end;
     int		y_end;
     double	angle;
+    double	start_angle;
     double	angle_inc;
 } t_var;
 
@@ -170,7 +174,7 @@ typedef struct s_data
 	size_t			visuals_len;
 	t_visuals		*visuals;
 	t_player		player;
-
+	t_var			var;
 	//added by mbouyahy
 	int				width_size;
     int				height_size;
@@ -203,10 +207,12 @@ void				init_data(t_data  *data);
 
 int					key_events(int btr, t_data *data);
 int					destroy_window(t_data *data);
-float				deg_to_rad(int deg);
+float				deg_to_rad(float deg);
+float				rad_to_deg(float deg);
 
 /*---------------------------<Drawing Functions>---------------------------*/
 
+void dda(int x1, int y1, int x2, int y2, t_data *data);
 void				draw_map(t_data *data, int flag);
 void				draw_square(t_data *data, int color, int cub);
 void				redraw(t_data *data, int flag);

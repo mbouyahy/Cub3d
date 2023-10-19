@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw_utiles.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/15 14:35:29 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/16 20:01:36 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:01:01 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ void draw_square(t_data *data, int color, int cub)
 
 void    setup_angle(t_data *data)
 {
-    if (data->player.p_direction == 'N')
-    {
-        data->player.r_angle = deg_to_rad(90);
-    }
-    else if (data->player.p_direction == 'E')
-    {
-        data->player.r_angle = deg_to_rad(180);
-    }
-    else if (data->player.p_direction == 'S')
+    if (data->player.facing_direction == NO)
     {
         data->player.r_angle = deg_to_rad(270);
     }
-    else if (data->player.p_direction == 'W')
+    else if (data->player.facing_direction == SO)
     {
-        data->player.r_angle = deg_to_rad(360);
+        data->player.r_angle = deg_to_rad(90);
+    }
+    else if (data->player.facing_direction == EA)
+    {
+        data->player.r_angle = deg_to_rad(0);
+    }
+    else if (data->player.facing_direction == WE)
+    {
+        data->player.r_angle = deg_to_rad(180);
     }
 }
 
@@ -77,6 +77,8 @@ void    draw_map(t_data *data, int flag)
 
     x = -1;
     y = -1;
+    
+        
     while (++y < data->map_size)
     {
         while (data->map[y][++x])
