@@ -6,7 +6,7 @@
 #    By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/09 16:54:22 by jlaazouz          #+#    #+#              #
-#    Updated: 2023/10/16 17:46:13 by mbouyahy         ###   ########.fr        #
+#    Updated: 2023/10/25 19:33:25 by mbouyahy         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PARSING_M =	${addprefix parsing/,check_colors_textures.c check_colors_textures_1
 
 SETUP_M =	${addprefix setup/,init_data.c}
 
-DRAWING_M =	${addprefix drawing/,distance.c draw_img.c draw_utiles.c draw_walls.c}
+DRAWING_M =	${addprefix drawing/,ray_casting.c ray_casting_utiles.c draw_rays.c draw_utiles.c draw_walls.c minimap.c}
 
 EVENTS_M =	${addprefix events/,key_events.c events_utiles.c}
 
@@ -40,7 +40,7 @@ LIBFT = libft/libft.a
 
 CC = cc 
 
-CFLAGS = -Wall -Wextra -Werror -ffast-math -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -ffast-math -fsanitize=address -g
 
 RM = rm -rf
 

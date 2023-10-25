@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/16 20:21:07 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/25 20:11:32 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,48 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
-//added by mbouyahy (BEGIN)
 #include <math.h>
 #include <mlx.h>
 #include <fcntl.h>
-//added by mbouyahy (END)
 
+/*---------------------------<Parsing Macro's>---------------------------*/
 
 # define MAP_SET "10NEWS "
-# define MAP_DIRECTIONS "NEWS"//added by mbouyahy
+# define MAP_DIRECTIONS "NEWS"
 # define MAP_SET_NEW "10NEWS\t\n "
 # define WHITE_SPACES "\n "
+
+/*---------------------------<Special Macro's>---------------------------*/
+
+# define WINDOW_HEIGHT 1080
+# define WINDOW_WIDTH 1920
+# define HORIZONTAL	0
+# define VERTICAL 1
+# define CUB_SIZE 40
+# define TRUE 1
+# define FALSE 0
+# define MAX_I 2147483647
+
+/*---------------------------<Views Keys>---------------------------*/
+
+#define LEFT 123
+#define RIGHT 124
+
+/*---------------------------<Events Keys>---------------------------*/
+
+#define CLOSE_WIN 17
+#define ESC 53
+
+/*------------------------<Movements Functions>-----------------------*/
+
+#define W 13
+#define A 0
+#define S 1
+#define D 2
+
+/*------------------------<Movements Functions>------------------------*/
+
+#define KEY_PRESS 2
 
 enum				e_error
 {
@@ -73,16 +103,10 @@ typedef struct s_border
 
 typedef struct s_player
 {
-	int				x;
-	int				y;
 	int				facing_direction;
-	char        	p_direction;//temp
-	int				rad;
-	double			m_speed;
-	int				t_dir;//remove this
-	int				w_dir;
-	double			r_angle;
-	double			r_speed;
+	float			r_angle;
+	float			x;
+	float			y;
 }					t_player;
 
 typedef struct s_visuals
@@ -97,31 +121,6 @@ typedef struct s_visuals
 	char			*floor_str;
 }					t_visuals;
 
-//added by mbouyahy (BEGIN)
-
-/*---------------------------<Views Keys>---------------------------*/
-
-#define LEFT 123
-#define RIGHT 124
-
-/*---------------------------<Events Keys>---------------------------*/
-
-#define CLOSE_WIN 17
-#define ESC 53
-
-/*------------------------<Movements Functions>-----------------------*/
-
-#define W 13
-#define A 0
-#define S 1
-#define D 2
-
-/*------------------------<Movements Functions>------------------------*/
-
-#define KEY_PRESS 2
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
-
 typedef struct s_img
 {
     char	*addr;
@@ -133,30 +132,39 @@ typedef struct s_img
 
 typedef struct s_var
 {
-    int		x;
-    int		y;
-    int		c;
-    int		i;
-	int		x_end;
-    int		y_end;
-    double	angle;
-    double	angle_inc;
-} t_var;
+    float		x;
+    float		y;
+    // float		minimap_x;
+    // float		minimap_y;
+    int			c;
+    int			i;
+	float  		move_x;
+	float  		move_y;
+	int			x_end;
+    int			y_end;
+    float		angle;
+    float		angle_inc;
+}			t_var;
 
 
 typedef struct s_distance
 {
-    int         next_x;//convert it to double for check if its work perfectly than integer
-	int         next_y;//convert it to double for check if its work perfectly than integer
-	double      y_step;
-	double      x_step;
+	float      	temporary_y;
+	float      	temporary_x;
+	float      	y_step;
+	float      	x_step;
+    float	   	_x;
+	float      	_y;
 	int         grid_x;
 	int         grid_y;
-	int         v_dist;
-	int         h_dist;
 }               t_distance;
 
-//added by mbouyahy (END)
+typedef struct s_point
+{
+	float	   	x;
+	float      	y;
+	int      	iswall;
+} t_point;
 
 typedef struct s_data
 {
@@ -170,55 +178,74 @@ typedef struct s_data
 	size_t			visuals_len;
 	t_visuals		*visuals;
 	t_player		player;
+	t_var			var;
 
-	//added by mbouyahy
 	int				width_size;
     int				height_size;
-    
     void			*mlx_ptr;
     void			*win_ptr;
     int				x_start;
     int				y_start;
     int				cub;
-    double			fov;
+    float			fov;
     int				ray_length;
     int				inside;
 
     char			**map;
     int				map_size;
 
-    t_img		img;
-	t_distance  dist;
+    t_img			img;
+	t_distance  	dist;
+	t_point			Vert;
+	t_point			Horiz;
+	float 			distance;
+	int         	ray_up;
+	int         	ray_down;
+	int         	ray_left;
+	int         	ray_right;
 
+	//testing
+	int				collums;
+	int				rows;
+
+	int				type;//temp
 }					t_data;
-
-
-//added by mbouyahy (BEGIN)
 
 /*---------------------------<Setup Functions>---------------------------*/
 
 void				init_data(t_data  *data);
+void				ft_init(t_data *cub);
+void				create_image(t_data *data);
 
 /*---------------------------<Events Functions>---------------------------*/
 
 int					key_events(int btr, t_data *data);
 int					destroy_window(t_data *data);
-float				deg_to_rad(int deg);
+
+/*---------------------------<Ray Casting Functions>---------------------------*/
+
+int     			is_inside_wall(t_data *data, float x, float y);
+void				find_coordinate(t_data *data, int value);
+void				horizontal_intersection(t_data *data);
+void				vertical_intersection(t_data *data);
+void				horizontal_next_step(t_data *data);
+void				vertical_next_step(t_data *data);
+float				remainder_angle(float angle);
+void    			find_distance(t_data *data);
 
 /*---------------------------<Drawing Functions>---------------------------*/
 
-void				draw_map(t_data *data, int flag);
-void				draw_square(t_data *data, int color, int cub);
-void				redraw(t_data *data, int flag);
-void				setup_angle(t_data *data);
 void				put_img(int x, int y, unsigned int color, t_data *data);
+void				draw_special_line(t_data *data, int wallTP, int wallBP);
+void 				dda(int x1, int y1, int x2, int y2, t_data *data);//for testing REMOVE IT 🚨
+void				draw_square(t_data *data, int color, int cub);
+void				draw_map(t_data *data, int flag);
+void				drawing_wall(t_data *data);
+void				setup_angle(t_data *data);
 void				draw_line(t_data *data);
-void				find_distance(t_data *data, int i, t_var *var);//NOT USED!!!!!
-int					horizontal_intersection(t_data *data);
-int					vertical_intersection(t_data *data);
-int					find_coordinate(t_data *data, int next_point, double *step);
-
-//added by mbouyahy (END)
+int 				ft_render(t_data *data);
+float				abs_angle(t_data *data);
+float				deg_to_rad(float deg);
 
 ////////////////////////////////------ PARSING ------////////////////////////////////
 
