@@ -6,17 +6,26 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:24 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/26 13:46:43 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/26 22:19:38 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
+void    redraw(t_data *data)
+{
+    mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
+    data->img.mlx_img = mlx_new_image(data->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
+    data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp, \
+                        &data->img.line_len, &data->img.endian);
+}
+
 int	ft_render(t_data *data)
 {
-  draw_map(data, 0);//you can deactivate this map and work only with the 3d!(🤡) map
-  draw_line(data);
-  mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
+	redraw(data);
+	draw_line(data);
+	draw_minimap(data);
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
 	return (0);
 }
 
@@ -35,11 +44,11 @@ int  check_wall(t_data *data, float x_value, float y_value)
   
     x = data->player.x + x_value;
     y = data->player.y + y_value;
-    if (x <= data->cub - x_value  || y <= data->cub - y_value ||
-        x >= data->width_size - data->cub || y >= data->height_size - data->cub)
+    if (x <= CUB_SIZE - x_value  || y <= CUB_SIZE - y_value ||
+        x >= WINDOW_WIDTH - CUB_SIZE || y >= WINDOW_HEIGHT - CUB_SIZE)
       return (1);
-    grid_x = (int)(x / data->cub);
-    grid_y = (int)(y / data->cub);
+    grid_x = (int)(x / CUB_SIZE);
+    grid_y = (int)(y / CUB_SIZE);
     if (grid_x >= data->collums - 1 || grid_y >= data->rows - 1)
       return (1);
     if (data->map[grid_y][grid_x] == '0' || 
@@ -48,54 +57,17 @@ int  check_wall(t_data *data, float x_value, float y_value)
     return (1);
 }
 
-void  player_moves(t_data *data, int key, float x_value, float y_value)
-{
-    if (key == A)
-    {
-      if (!check_wall(data, x_value - (M_PI / 2), y_value - (M_PI / 2)))
-      {
-        data->var.move_x += (x_value - (M_PI / 2));
-        data->var.move_y += (y_value - (M_PI / 2));
-      }
-    }
-    if (key == D)
-    {
-      if (!check_wall(data, x_value + (M_PI / 2), y_value + (M_PI / 2)))
-      {
-        data->var.move_x += (x_value + (M_PI / 2));
-        data->var.move_y += (y_value + (M_PI / 2));
-      }
-    }
-    if (key == W)
-    {
-      if (!check_wall(data, x_value, y_value))
-      {
-        data->var.move_x += x_value;
-        data->var.move_y += y_value;
-      }
-    }
-    if (key == S)
-    {
-      if (!check_wall(data, -x_value, -y_value))
-      {
-        data->var.move_x -= x_value;
-        data->var.move_y -= y_value;
-      }
-    }
-}
-
 int key_events(int key, t_data *data)
 {
     float x_value;
     float y_value;
 
-    x_value = cos((data->player.r_angle));
-    y_value = sin((data->player.r_angle));
+    x_value = cos((data->player.r_angle)) * 10;
+    y_value = sin((data->player.r_angle)) * 10;
     if (key == RIGHT)
       rotate_line(data,  (5 * (M_PI / 180)));
     if (key == LEFT)
       rotate_line(data,  (-5 * (M_PI / 180)));
-    //maybe the movement events not working yet
     player_moves(data, key, x_value, y_value);
     if (key == ESC)
 		  destroy_window(data);

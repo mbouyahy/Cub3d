@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 12:53:41 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/25 19:40:42 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/26 22:19:13 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void draw_square(t_data *data, int color, int cub)
     {
         while (i <= cub)
         {
-            if (data->x_start + i < data->width_size \
-				&& data->y_start + j < data->height_size)
+            if (data->x_start + i < data->minimap.width \
+				&& data->y_start + j < data->minimap.height)
                 put_img(data->x_start + i, data->y_start + j, color, data);
             i++;
         }
@@ -33,7 +33,7 @@ void draw_square(t_data *data, int color, int cub)
     }
 }
 
-void    draw_map(t_data *data, int flag)
+void    draw_map(t_data *data)
 {
     int     x;
     int     y;
@@ -52,17 +52,65 @@ void    draw_map(t_data *data, int flag)
                 draw_square(data, 0xffffff, data->cub);
             }
             else if (data->map[y][x] == '0' || ft_strchr(MAP_DIRECTIONS, data->map[y][x]))
-            {
-                if (ft_strchr(MAP_DIRECTIONS, data->map[y][x]) && flag == 0)//test
-                {
-                    // data->player.p_direction = data->map[y][x];
-                    //(data->cub / 2) for put the player in the center of cub
-                    data->player.y = y * data->cub + (data->cub / 2);
-                    data->player.x = x * data->cub + (data->cub / 2);
-                }
                 draw_square(data, 4868967, data->cub);
-            }
         }
         x = -1;
+    }
+}
+
+void    init_var_(t_data *data, t_var *var)
+{
+    var->c = 1;
+    var->i = 0;
+    data->minimap.x = (data->player.x / CUB_SIZE);
+    data->minimap.y = (data->player.y / CUB_SIZE);
+    data->minimap.x = data->minimap.x * data->cub;
+    data->minimap.y = data->minimap.y * data->cub;
+    var->x = data->minimap.x;
+    var->y = data->minimap.y;
+	var->angle = data->player.r_angle - (data->fov / 2);
+    var->angle_inc = data->fov / data->minimap.width;
+}
+
+void    draw_single_line(t_var *var, t_data *data)
+{
+    size_t  grid_x;
+    size_t  grid_y;
+    float   x_end;
+    float   y_end;
+
+    grid_x = 0;
+    grid_y = 0;
+    data->minimap.ray_length = data->minimap.width;
+    while (var->c < data->minimap.ray_length)
+    {
+        x_end = var->x + (var->c * cos((var->angle)));
+        y_end = var->y + (var->c * sin((var->angle)));
+        grid_x = (int)(x_end / data->cub);
+        grid_y = (int)(y_end / data->cub);
+        if (y_end >= 0 && x_end >= 0 && x_end <= data->minimap.width && y_end <= data->minimap.height)
+        {
+            if (data->map[grid_y][grid_x] == '0' || ft_strchr(MAP_DIRECTIONS, data->map[grid_y][grid_x]))
+                put_img(x_end, y_end, 0xFF0000, data);
+            else
+                break ;
+        }
+        var->c++;
+    }
+}
+
+void    draw_minimap(t_data *data)
+{
+    t_var var;
+
+    draw_map(data);
+    init_var_(data, &var);//for initialize the attributes
+    while (var.i < data->minimap.width)
+    {
+        var.angle = remainder_angle(var.angle);//for normalize the angle
+        draw_single_line(&var, data);//for drawing rays
+        var.angle += var.angle_inc;
+        var.c = 1;
+        var.i++;
     }
 }

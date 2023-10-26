@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:07:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/25 19:31:06 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:18:34 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void	horizontal_intersection(t_data *data)
 
 	data->dist.temporary_x = data->dist._x;
 	data->dist.temporary_y = data->dist._y;
-	while (data->dist.temporary_y <= data->height_size && data->dist.temporary_y > 0\
-		&& data->dist.temporary_x > 0 && data->dist.temporary_x <= data->width_size)
+	while (data->dist.temporary_y <= WINDOW_HEIGHT && data->dist.temporary_y > 0\
+		&& data->dist.temporary_x > 0 && data->dist.temporary_x <= WINDOW_WIDTH)
 	{
 		x = data->dist.temporary_x;//testing
 		y = data->dist.temporary_y;
@@ -112,8 +112,8 @@ void	vertical_intersection(t_data *data)
 
 	data->dist.temporary_x = data->dist._x;
 	data->dist.temporary_y = data->dist._y;
-	while (data->dist.temporary_y <= data->height_size && data->dist.temporary_y > 0\
-		 && data->dist.temporary_x > 0 && data->dist.temporary_x <= data->width_size)
+	while (data->dist.temporary_y <= WINDOW_HEIGHT && data->dist.temporary_y > 0\
+		 && data->dist.temporary_x > 0 && data->dist.temporary_x <= WINDOW_WIDTH)
 	{
 		x = data->dist.temporary_x;
 		if (data->ray_left)

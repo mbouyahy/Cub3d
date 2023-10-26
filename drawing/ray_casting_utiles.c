@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 19:30:23 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/25 20:03:45 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:17:56 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,12 @@ int	is_inside_wall(t_data *data, float x, float y)
 
 	grid_y = (int)(y / CUB_SIZE);
 	grid_x = (int)(x / CUB_SIZE);
-	if (grid_y >= data->height_size / CUB_SIZE)//change this with rows and check it 
+	if (grid_y >= WINDOW_HEIGHT / CUB_SIZE)//change this with rows and check it 
 		return (TRUE);
-	if ((size_t)grid_x >= ft_strlen(data->map[grid_y]))//change this with cols and check it 
+	if (grid_y >= data->rows)//added
+		return (TRUE);
+	// printf("grid_y : %d\n", grid_y);
+	if ((size_t)grid_x >= ft_strlen(data->map[grid_y]))//change this with cols and check it //SEGV
 		return (TRUE);
 	if (grid_x <= 0 || grid_y <= 0)//join this if statement with the first one and check if all thing work as you want
 		return (TRUE);

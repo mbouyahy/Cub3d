@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/25 20:11:32 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/26 22:19:55 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,14 @@
 
 # define WINDOW_HEIGHT 1080
 # define WINDOW_WIDTH 1920
+# define CUB_SIZE 40
+
 # define HORIZONTAL	0
 # define VERTICAL 1
-# define CUB_SIZE 40
+
 # define TRUE 1
 # define FALSE 0
+
 # define MAX_I 2147483647
 
 /*---------------------------<Views Keys>---------------------------*/
@@ -134,12 +137,8 @@ typedef struct s_var
 {
     float		x;
     float		y;
-    // float		minimap_x;
-    // float		minimap_y;
     int			c;
     int			i;
-	float  		move_x;
-	float  		move_y;
 	int			x_end;
     int			y_end;
     float		angle;
@@ -166,6 +165,15 @@ typedef struct s_point
 	int      	iswall;
 } t_point;
 
+typedef struct s_minimap
+{
+	int				ray_length;
+	int				width;
+    int				height;
+	float			x;
+	float			y;
+} t_minimap;
+
 typedef struct s_data
 {
 	char			**file;
@@ -188,8 +196,10 @@ typedef struct s_data
     int				y_start;
     int				cub;
     float			fov;
-    int				ray_length;
-    int				inside;
+
+	t_minimap		minimap;
+	int				collums;
+	int				rows;
 
     char			**map;
     int				map_size;
@@ -203,13 +213,13 @@ typedef struct s_data
 	int         	ray_down;
 	int         	ray_left;
 	int         	ray_right;
-
-	//testing
-	int				collums;
-	int				rows;
-
-	int				type;//temp
 }					t_data;
+
+/*---------------------------<Minimap Functions>---------------------------*/
+
+void    			draw_minimap(t_data *data);
+int  				minimap_check_wall(t_data *data, float x_value, float y_value);
+void				draw_map(t_data *data);
 
 /*---------------------------<Setup Functions>---------------------------*/
 
@@ -219,8 +229,14 @@ void				create_image(t_data *data);
 
 /*---------------------------<Events Functions>---------------------------*/
 
+void				player_moves(t_data *data, int key, float x_value, float y_value);
+void    			key_a(t_data *data, float x_value, float y_value);
+void				key_d(t_data *data, float x_value, float y_value);
+void				key_w(t_data *data, float x_value, float y_value);
+void				key_s(t_data *data, float x_value, float y_value);
 int					key_events(int btr, t_data *data);
 int					destroy_window(t_data *data);
+int					check_wall(t_data *data, float x_value, float y_value);//change the place of this function
 
 /*---------------------------<Ray Casting Functions>---------------------------*/
 
@@ -239,7 +255,6 @@ void				put_img(int x, int y, unsigned int color, t_data *data);
 void				draw_special_line(t_data *data, int wallTP, int wallBP);
 void 				dda(int x1, int y1, int x2, int y2, t_data *data);//for testing REMOVE IT 🚨
 void				draw_square(t_data *data, int color, int cub);
-void				draw_map(t_data *data, int flag);
 void				drawing_wall(t_data *data);
 void				setup_angle(t_data *data);
 void				draw_line(t_data *data);

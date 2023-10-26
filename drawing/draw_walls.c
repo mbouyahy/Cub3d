@@ -6,20 +6,34 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:24:41 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/25 19:23:30 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/26 22:00:33 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-void    draw_special_line(t_data *data, int wallTP, int wallBP)
+void    draw_special_line(t_data *data, int top, int bottom)
 {
     int y;
 
-    y = wallTP;
-    while (y < wallBP)
+    y = top;
+    while (y < bottom)
     {
         put_img(data->var.i, y, 3456, data);
+        y++;
+    }
+    //SEGV HERE!👇
+    y = 0;
+    while (top > 0 && y < top && top < WINDOW_HEIGHT)
+    {
+        if (y > 0 && y < WINDOW_HEIGHT)
+            put_img(data->var.i, y, 0xb7d8ed, data);
+        y++;
+    }
+    y = bottom;
+    while (y > 0 && y < WINDOW_HEIGHT && bottom < WINDOW_HEIGHT)
+    {
+        put_img(data->var.i, y, 0xffffff, data);
         y++;
     }
 }
@@ -41,13 +55,13 @@ void    drawing_wall(t_data *data)
     int		bottom;
     
     correct_distance = data->distance * cos(abs_angle(data));
-    projectionWallH = (CUB_SIZE / correct_distance) * (data->width_size / 2) / tanf((data->fov / 2));
-    top = (data->height_size / 2) - ((int)projectionWallH / 2);
+    projectionWallH = (CUB_SIZE / correct_distance) * (WINDOW_WIDTH / 2) / tanf((data->fov / 2));
+    top = (WINDOW_HEIGHT / 2) - ((int)projectionWallH / 2);
     if (top < 0)
         top = 0;
-    bottom = (data->height_size / 2) + ((int)projectionWallH / 2);
-    if (bottom > data->height_size)
-        bottom = data->height_size;
+    bottom = (WINDOW_HEIGHT / 2) + ((int)projectionWallH / 2);
+    if (bottom > WINDOW_HEIGHT)
+        bottom = WINDOW_HEIGHT;
     draw_special_line(data, top, bottom);
 }
 
@@ -84,15 +98,8 @@ void    find_distance(t_data *data)
         vertical = distance_calc(data, VERTICAL);
     else
         vertical = MAX_I;
-
     if (horizontal < vertical)
-    {
         data->distance = horizontal;
-        data->type = HORIZONTAL;
-    }
     else
-    {
         data->distance = vertical;
-        data->type = VERTICAL;
-    }
 }
