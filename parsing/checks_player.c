@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   checks_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:25:47 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/13 15:26:07 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/20 17:48:20 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
 int	check_player_surrounding(t_data *cub)
-{	if (cub->player.x == 0)
+{	if ((int)cub->player.x == 0)
 		return (ft_error(PLAYER_BAD_POS));
-	if (!(cub->map_grid[cub->player.y][cub->player.x + 1] == '0'
-		|| cub->map_grid[cub->player.y][cub->player.x + 1] == '1'))
+	if (!(cub->map_grid[(int)cub->player.y][(int)cub->player.x + 1] == '0'
+		|| cub->map_grid[(int)cub->player.y][(int)cub->player.x + 1] == '1'))
 		return (ft_error(PLAYER_BAD_POS));
-	else if (!(cub->map_grid[cub->player.y][cub->player.x - 1] == '0'
-		|| cub->map_grid[cub->player.y][cub->player.x - 1] == '1'))
+	else if (!(cub->map_grid[(int)cub->player.y][(int)cub->player.x - 1] == '0'
+		|| cub->map_grid[(int)cub->player.y][(int)cub->player.x - 1] == '1'))
 		return (ft_error(PLAYER_BAD_POS));
-	else if (!(cub->map_grid[cub->player.y + 1][cub->player.x] == '0'
-		|| cub->map_grid[cub->player.y + 1][cub->player.x] == '1'))
+	else if (!(cub->map_grid[(int)cub->player.y + 1][(int)cub->player.x] == '0'
+		|| cub->map_grid[(int)cub->player.y + 1][(int)cub->player.x] == '1'))
 		return (ft_error(PLAYER_BAD_POS));
-	else if (!(cub->map_grid[cub->player.y - 1][cub->player.x] == '0'
-		|| cub->map_grid[cub->player.y - 1][cub->player.x] == '1'))
+	else if (!(cub->map_grid[(int)cub->player.y - 1][(int)cub->player.x] == '0'
+		|| cub->map_grid[(int)cub->player.y - 1][(int)cub->player.x] == '1'))
 		return (ft_error(PLAYER_BAD_POS));
 	return (EXIT_SUCCESS);
 }

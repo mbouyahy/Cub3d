@@ -6,72 +6,86 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:24:41 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/19 11:33:50 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/29 15:12:16 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-void    drawline_(t_data *data, t_var *var, int x_start, int x_end, int y_end, int i)
+float    abs_angle(t_data *data)
 {
-    // t_var var;
-
-    var->c = i;
-    while (x_start < y_end)
-    {   
-        var->x_end = x_end - (var->c * cos(var->angle + var->rotate));
-        var->y_end = y_end - (var->c * sin(var->angle + var->rotate));
-        if (y_end > 0 && x_end > 0)
-        {
-            // printf("DONE\n");
-            if (x_end < data->width_size && y_end < data->height_size)
-                put_img(x_start, y_end, 0xFF0000, data);
-        }
-        var->c++;
-        x_start++;
-    }
+    if (data->var.angle > data->player.r_angle)
+        return (data->var.angle - data->player.r_angle);
+    else if (data->var.angle < data->player.r_angle)
+        return (data->player.r_angle - data->var.angle);
+    return (data->var.angle);
 }
 
-void    walldraw_(t_data *data, int dist, int i, t_var *var)
+void    drawing_wall(t_data *data, int axe)
 {
-    float       d_projection_plane;
-    int         wall_length;
-    int         top;
-    int         bottom;
+    float	correct_distance;
+    float	projectionWallH;
+    int		top;
+    int		bottom;
+    
+    correct_distance = data->distance * cos(abs_angle(data));
+    projectionWallH = (data->tile / correct_distance) * (WINDOW_WIDTH / 2) / tanf((data->fov / 2));
+    top = (WINDOW_HEIGHT - (int)projectionWallH) / 2;
+    bottom = top + projectionWallH;
 
-    d_projection_plane = (data->width_size / 2) / tan(( 60 * (M_PI / 180) ) / 2);
-    wall_length = 0;
-    bottom = data->height_size;
-    if (dist > 0)
-    {
-        wall_length = (data->cub / dist) * d_projection_plane;
-        printf("wall_length = %d\n", wall_length);
-    }
-    top = (data->height_size / 2) - (wall_length / 2);
-    if (top < 0)
-        top = 0;
-    bottom = (data->height_size / 2) + (wall_length / 2);
-    if (bottom > data->height_size)
-        bottom = data->height_size;
-    // (void)i;
-    drawline_(data, var, i, top, bottom, i);//problem
+    draw_scene_line(data, top, bottom, axe);
 }
 
-void    find_distance(t_data *data, int i, t_var *var)
+float	distance_calc(t_data *data, int value)
 {
-    int     vertical;
-    int     horizontal;
+    if (value == HORIZONTAL)
+    {
+        return (sqrt(((data->player.x - data->Horiz.x) * ( data->player.x - data->Horiz.x))\
+                    + ((data->player.y - data->Horiz.y) * (data->player.y - data->Horiz.y))));
+    }
+    else if (value == VERTICAL)
+    {
+        return (sqrt(((data->player.x - data->Vert.x) * ( data->player.x - data->Vert.x))\
+            + ((data->player.y - data->Vert.y) * (data->player.y - data->Vert.y))));
+    }
+    return (0);
+}
 
-    vertical = horizontal_intersection(data);
-    horizontal = vertical_intersection(data);
-    if (vertical < horizontal && vertical > 0)
+void wall(t_data *data, float hor, float ver)
+{
+    if (hor < ver)
     {
-        printf("vertical %d : DONE\n", vertical);
-        walldraw_(data, vertical, i, var);
+        data->distance = hor;
+        data->x_wall = data->Horiz.x;
+        data->y_wall = data->Horiz.y;
+        drawing_wall(data, HORIZONTAL);
     }
-    else if (vertical > horizontal && horizontal > 0)
+    else
     {
-        printf("horizontal %d : DONE\n", horizontal);
-        walldraw_(data, horizontal, i, var);
-    }
+        data->distance = ver;
+        data->x_wall = data->Vert.x;
+        data->y_wall = data->Vert.y;
+        drawing_wall(data, VERTICAL);
+    }  
+}
+
+void    find_distance(t_data *data)
+{
+    float           vertical;
+    float           horizontal;
+
+    vertical = 0;
+    horizontal = 0;
+
+    horizontal_intersection(data);
+    vertical_intersection(data);
+    if (data->Horiz.iswall)
+        horizontal = distance_calc(data, HORIZONTAL);
+    else
+        horizontal = MAX_I;
+    if (data->Vert.iswall)
+        vertical = distance_calc(data, VERTICAL);
+    else
+        vertical = MAX_I;
+    wall(data, horizontal, vertical);
 }

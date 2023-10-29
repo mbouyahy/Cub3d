@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/19 10:47:03 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/29 15:55:30 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,52 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-
-//added by mbouyahy (BEGIN)
 #include <math.h>
 #include <mlx.h>
 #include <fcntl.h>
-//added by mbouyahy (END)
 
+/*---------------------------<Parsing Macro's>---------------------------*/
 
 # define MAP_SET "10NEWS "
-# define MAP_DIRECTIONS "NEWS"//added by mbouyahy
+# define MAP_DIRECTIONS "NEWS"
 # define MAP_SET_NEW "10NEWS\t\n "
 # define WHITE_SPACES "\n "
+
+/*---------------------------<Special Macro's>---------------------------*/
+
+# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 1280
+# define CUB_SIZE 20
+# define SPEED WINDOW_HEIGHT/200
+
+# define HORIZONTAL	0
+# define VERTICAL 1
+
+# define TRUE 1
+# define FALSE 0
+
+# define MAX_I 2147483647
+
+/*---------------------------<Views Keys>---------------------------*/
+
+#define LEFT 123
+#define RIGHT 124
+
+/*---------------------------<Events Keys>---------------------------*/
+
+#define CLOSE_WIN 17
+#define ESC 53
+
+/*------------------------<Movements Functions>-----------------------*/
+
+#define W 13
+#define A 0
+#define S 1
+#define D 2
+
+/*------------------------<Movements Functions>------------------------*/
+
+#define KEY_PRESS 2
 
 enum				e_error
 {
@@ -51,6 +85,8 @@ enum				e_error
 	EMPTY_LINE_IN_MAP_GRID,
 	PLAYER_BAD_POS,
 	CLIFF_FOUND,
+	TEXTURE_OPENING,
+	IMAGE_ALLOCATION,
 };
 
 enum				e_component_error
@@ -73,16 +109,10 @@ typedef struct s_border
 
 typedef struct s_player
 {
-	int				x;
-	int				y;
 	int				facing_direction;
-	char        	p_direction;//temp
-	int				rad;
-	double			m_speed;
-	int				t_dir;//remove this
-	int				w_dir;
-	double			r_angle;
-	double			r_speed;
+	float			r_angle;
+	float			x;
+	float			y;
 }					t_player;
 
 typedef struct s_visuals
@@ -97,31 +127,6 @@ typedef struct s_visuals
 	char			*floor_str;
 }					t_visuals;
 
-//added by mbouyahy (BEGIN)
-
-/*---------------------------<Views Keys>---------------------------*/
-
-#define LEFT 123
-#define RIGHT 124
-
-/*---------------------------<Events Keys>---------------------------*/
-
-#define CLOSE_WIN 17
-#define ESC 53
-
-/*------------------------<Movements Functions>-----------------------*/
-
-#define W 13
-#define A 0
-#define S 1
-#define D 2
-
-/*------------------------<Movements Functions>------------------------*/
-
-#define KEY_PRESS 2
-#define WINDOW_WIDTH 1920
-#define WINDOW_HEIGHT 1080
-
 typedef struct s_img
 {
     char	*addr;
@@ -133,34 +138,79 @@ typedef struct s_img
 
 typedef struct s_var
 {
-    int		x;
-    int		y;
-    int		c;
-    int		i;
-	double	rotate;
-	double  move_x;
-	double  move_y;
-	int		x_end;
-    int		y_end;
-    double	angle;
-    double	start_angle;
-    double	angle_inc;
-} t_var;
+    float		x;
+    float		y;
+    int			c;
+    int			i;
+	int			x_end;
+    int			y_end;
+    float		angle;
+    float		angle_inc;
+}			t_var;
 
 
 typedef struct s_distance
 {
-    int         next_x;//convert it to double for check if its work perfectly than integer
-	int         next_y;//convert it to double for check if its work perfectly than integer
-	double      y_step;
-	double      x_step;
+	float      	temporary_y;
+	float      	temporary_x;
+	float      	y_step;
+	float      	x_step;
+    float	   	_x;
+	float      	_y;
 	int         grid_x;
 	int         grid_y;
-	int         v_dist;
-	int         h_dist;
 }               t_distance;
 
-//added by mbouyahy (END)
+typedef struct s_point
+{
+	float	   	x;
+	float      	y;
+	int      	iswall;
+} t_point;
+
+typedef struct s_minimap
+{
+	int				ray_length;
+	int				width;
+    int				height;
+	float			x;
+	float			y;
+} t_minimap;
+
+typedef struct s_tex
+{
+	void		*img_ptr;
+	char		*addr;
+	int			bpp;
+	int			line_len;
+	int			endian;
+	int			width;
+	int			height;
+}				t_tex;
+
+typedef struct s_texturing
+{
+	float			current_collumn;
+	unsigned int	color;
+	float			x_diff;
+	float			y_diff;
+	float			middle_dist;
+	float			x_end_wall;
+	float			y_percentage;
+	float			x_percentage;
+	float			x_step;
+	float			u_step;
+}				t_texturing;
+
+
+typedef struct s_mouse
+{
+	float		old_x;
+	float		old_y;
+	float		new_x;
+	float		new_y;
+}				t_mouse;
+
 
 typedef struct s_data
 {
@@ -175,56 +225,90 @@ typedef struct s_data
 	t_visuals		*visuals;
 	t_player		player;
 	t_var			var;
-	//added by mbouyahy
+	t_tex			no;
+	t_tex			so;
+	t_tex			we;
+	t_tex			ea;
 	int				width_size;
     int				height_size;
-    
     void			*mlx_ptr;
     void			*win_ptr;
     int				x_start;
     int				y_start;
     int				cub;
-    double			fov;
-    int				ray_length;
-    int				inside;
-
+    float			fov;
+	t_minimap		minimap;
+	int				collums;
+	int				rows;
     char			**map;
     int				map_size;
-
-    t_img		img;
-	t_distance  dist;
-
+    t_img			img;
+	t_distance  	dist;
+	t_point			Vert;
+	t_point			Horiz;
+	float 			distance;
+	int         	ray_up;
+	int         	ray_down;
+	int         	ray_left;
+	int         	ray_right;
+	float			angle;
+	float			x_wall;
+	float 			y_wall;
+	int				tile;
+	t_texturing		texture;
+	float			x_;
+	t_mouse			mouse;
 }					t_data;
 
+/*---------------------------<Minimap Functions>---------------------------*/
 
-//added by mbouyahy (BEGIN)
+void    			draw_minimap(t_data *data);
+int  				minimap_check_wall(t_data *data, float x_value, float y_value);
+void				draw_map(t_data *data);
 
 /*---------------------------<Setup Functions>---------------------------*/
 
 void				init_data(t_data  *data);
+void				ft_init(t_data *cub);
+void				create_image(t_data *data);
 
 /*---------------------------<Events Functions>---------------------------*/
 
+void				rotate_line(t_data *data, float angle);
+void				player_moves(t_data *data, int key, float x_value, float y_value);
+void    			key_a(t_data *data, float x_value, float y_value);
+void				key_d(t_data *data, float x_value, float y_value);
+void				key_w(t_data *data, float x_value, float y_value);
+void				key_s(t_data *data, float x_value, float y_value);
 int					key_events(int btr, t_data *data);
 int					destroy_window(t_data *data);
-float				deg_to_rad(float deg);
-float				rad_to_deg(float deg);
+int					check_wall(t_data *data, float x_value, float y_value);//change the place of this function
+int 				mouse_move(int x, int y, t_data *data);
+int 				ft_exit_cross(t_data *data);
+
+/*---------------------------<Ray Casting Functions>---------------------------*/
+
+int     			is_inside_wall(t_data *data, float x, float y);
+void				find_coordinate(t_data *data, int value);
+void				horizontal_intersection(t_data *data);
+void				vertical_intersection(t_data *data);
+void				horizontal_next_step(t_data *data);
+void				vertical_next_step(t_data *data);
+float				remainder_angle(float angle);
+void    			find_distance(t_data *data);
 
 /*---------------------------<Drawing Functions>---------------------------*/
 
-void dda(int x1, int y1, int x2, int y2, t_data *data);
-void				draw_map(t_data *data, int flag);
-void				draw_square(t_data *data, int color, int cub);
-void				redraw(t_data *data, int flag);
-void				setup_angle(t_data *data);
 void				put_img(int x, int y, unsigned int color, t_data *data);
+void				draw_scene_line(t_data *data, int wallTP, int wallBP, int axe);
+void 				dda(int x1, int y1, int x2, int y2, t_data *data);//for testing REMOVE IT 🚨
+void				draw_square(t_data *data, int color, int cub);
+void				drawing_wall(t_data *data, int axe);
+void				setup_angle(t_data *data);
 void				draw_line(t_data *data);
-void				find_distance(t_data *data, int i, t_var *var);//NOT USED!!!!!
-int					horizontal_intersection(t_data *data);
-int					vertical_intersection(t_data *data);
-int					find_coordinate(t_data *data, int next_point, double *step);
-
-//added by mbouyahy (END)
+int 				ft_render(t_data *data);
+float				abs_angle(t_data *data);
+float				deg_to_rad(float deg);
 
 ////////////////////////////////------ PARSING ------////////////////////////////////
 
@@ -263,8 +347,13 @@ int					ft_occurence_time(char *str, char c);
 int					ft_occurence_index(char *str, char c);
 void				double_print(char **str);
 
+
+int texture_checks(t_data   *data);
+void	put_pixel(t_img *img, int x, int y, int color);
+void get_color_texture(t_tex *texture, int x, int y, unsigned int *color);
+void	put_pixel(t_img *img, int x, int y, int color);
+
 int					ft_error(int type);
 
-////////////////////////////////------ RAY_CASTING (TMP) ------////////////////////////////////
 
 #endif
