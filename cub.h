@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/29 15:55:30 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:21:56 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 #include <math.h>
-#include <mlx.h>
+// #include <mlx.h>
+#include "/Users/jlaazouz/mlx/include/MLX42/MLX42.h"
 #include <fcntl.h>
 
 /*---------------------------<Parsing Macro's>---------------------------*/
@@ -34,7 +35,8 @@
 # define WINDOW_HEIGHT 720
 # define WINDOW_WIDTH 1280
 # define CUB_SIZE 20
-# define SPEED WINDOW_HEIGHT/200
+# define SPEED 2.1f
+# define ROTATE 2.1f
 
 # define HORIZONTAL	0
 # define VERTICAL 1
@@ -146,6 +148,8 @@ typedef struct s_var
     int			y_end;
     float		angle;
     float		angle_inc;
+	int			width;
+	int			height;
 }			t_var;
 
 
@@ -225,14 +229,12 @@ typedef struct s_data
 	t_visuals		*visuals;
 	t_player		player;
 	t_var			var;
-	t_tex			no;
-	t_tex			so;
-	t_tex			we;
-	t_tex			ea;
+	mlx_texture_t	*no;
+	mlx_texture_t	*so;
+	mlx_texture_t	*ea;
+	mlx_texture_t	*we;
 	int				width_size;
     int				height_size;
-    void			*mlx_ptr;
-    void			*win_ptr;
     int				x_start;
     int				y_start;
     int				cub;
@@ -242,7 +244,8 @@ typedef struct s_data
 	int				rows;
     char			**map;
     int				map_size;
-    t_img			img;
+	mlx_t			*mlx;
+	mlx_image_t		*image;
 	t_distance  	dist;
 	t_point			Vert;
 	t_point			Horiz;
@@ -258,6 +261,12 @@ typedef struct s_data
 	t_texturing		texture;
 	float			x_;
 	t_mouse			mouse;
+	int32_t			new_x;
+	int				game_started;
+	int				activate;
+	int				type;
+	int				window_width;
+    int				window_height;
 }					t_data;
 
 /*---------------------------<Minimap Functions>---------------------------*/
@@ -275,12 +284,12 @@ void				create_image(t_data *data);
 /*---------------------------<Events Functions>---------------------------*/
 
 void				rotate_line(t_data *data, float angle);
-void				player_moves(t_data *data, int key, float x_value, float y_value);
+void				player_moves(t_data *data, mlx_t *mlx, float x_value, float y_value);
 void    			key_a(t_data *data, float x_value, float y_value);
 void				key_d(t_data *data, float x_value, float y_value);
 void				key_w(t_data *data, float x_value, float y_value);
 void				key_s(t_data *data, float x_value, float y_value);
-int					key_events(int btr, t_data *data);
+void					key_events(void *data);
 int					destroy_window(t_data *data);
 int					check_wall(t_data *data, float x_value, float y_value);//change the place of this function
 int 				mouse_move(int x, int y, t_data *data);
@@ -299,14 +308,14 @@ void    			find_distance(t_data *data);
 
 /*---------------------------<Drawing Functions>---------------------------*/
 
-void				put_img(int x, int y, unsigned int color, t_data *data);
+// void				put_img(int x, int y, unsigned int color, t_data *data);
 void				draw_scene_line(t_data *data, int wallTP, int wallBP, int axe);
 void 				dda(int x1, int y1, int x2, int y2, t_data *data);//for testing REMOVE IT 🚨
 void				draw_square(t_data *data, int color, int cub);
 void				drawing_wall(t_data *data, int axe);
 void				setup_angle(t_data *data);
 void				draw_line(t_data *data);
-int 				ft_render(t_data *data);
+void 				ft_render(void *data);
 float				abs_angle(t_data *data);
 float				deg_to_rad(float deg);
 
@@ -324,7 +333,7 @@ int					extract_path(t_data *cub);
 int					extract_color_code(t_data *cub);
 int					check_rgb_range(int r, int g, int b);
 int					get_color(char *color_str, unsigned int *color);
-int					create_trgb(int t, int r, int g, int b);
+int					create_rgba(int r, int g, int b, int a);
 int					get_floor_ceiling_color(t_data *cub);
 
 int					ft_more_than_one_player(t_data *cub);
@@ -350,8 +359,9 @@ void				double_print(char **str);
 
 int texture_checks(t_data   *data);
 void	put_pixel(t_img *img, int x, int y, int color);
-void get_color_texture(t_tex *texture, int x, int y, unsigned int *color);
+int32_t	get_color_texture(mlx_texture_t *txt, int x, int y);
 void	put_pixel(t_img *img, int x, int y, int color);
+void ddaa(t_data *data, int x1, int y1, int x2, int y2, int color);
 
 int					ft_error(int type);
 

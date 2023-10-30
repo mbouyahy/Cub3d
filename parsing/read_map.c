@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:06:14 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/15 19:02:48 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:15:17 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	store_necessary_info(t_data *cub, char *str)
 	{
 		map_reached = 1;
 		cub->map_start = cub->file_len;
+		cub->map_collums = len + 1;
 	}
 	cub->file = ft_join_ptr_to_double_ptr(cub->file, tmp);
 	free(tmp);

@@ -1,14 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/09 16:54:22 by jlaazouz          #+#    #+#              #
-#    Updated: 2023/10/29 15:47:13 by jlaazouz         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = cub3D
+
+LIBFT = libft/libft.a
+MLX 	= -Wunreachable-code -O3
+# MLX    = -lmlx -framework OpenGL -framework AppKit
 
 SRCS_M = main.c
 
@@ -38,23 +32,18 @@ EVENTS_O = ${EVENTS_M:.c=.o}
 
 ALL_SRCS = ${SRCS_M} ${PARSING_M} ${SETUP_M} ${DRAWING_M} ${TEXTURING_M} ${EVENTS_M} 
 
-NAME = cub3D
-
-LIBFT = libft/libft.a
-
-CC = cc 
 
 CFLAGS = -Wall -Wextra -Werror -ffast-math -fsanitize=address -g
 
-RM = rm -rf
+all : $(NAME)
 
-all : ${NAME}
 
-${NAME} : ${OBJS_M} ${PARSING_O} ${SETUP_O} ${DRAWING_O} ${TEXTURING_O} ${EVENTS_O}
+$(NAME) : ${OBJS_M} ${PARSING_O} ${SETUP_O} ${DRAWING_O} ${TEXTURING_O} ${EVENTS_O}
 	@make -C libft
-	${CC} ${CFLAGS} ${ALL_SRCS}  -lmlx -framework OpenGL -framework AppKit ${LIBFT} -o ${NAME}
+	@$(CC) $(CFLAGS) $(ALL_SRCS) /Users/jlaazouz/mlx/build/libmlx42.a -Iinclude -lglfw -L"/goinfre/jlaazouz/homebrew/Cellar/glfw/3.3.8/lib" ${LIBFT} -o $(NAME)
+
 clean:
-	${RM} ${OBJS_M} 
+	${RM} ${OBJS_M}
 	${MAKE} -C libft clean
 
 fclean: clean

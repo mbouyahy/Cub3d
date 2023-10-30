@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:07:47 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/27 10:43:52 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:04:31 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,44 +37,28 @@ void	horizontal_init(t_data *data)
 
 void	horizontal_intersection(t_data *data)
 {
-	float x;
-	float y;
+	float	x;
+	float	y;
 
-	//init variables
 	horizontal_init(data);
-	//setup ray_facing BEGIN
 	setup_direction(data);
-	//setup ray_facing END
-
-	//find coordinate BEGIN
 	find_coordinate(data, HORIZONTAL);
-	//find coordinate END 
-
-	//find the next x and y steps BEGIN
 	horizontal_next_step(data);
-	//find the next x and y steps END
-
 	data->dist.temporary_x = data->dist._x;
 	data->dist.temporary_y = data->dist._y;
-	while (data->dist.temporary_y <= WINDOW_HEIGHT && data->dist.temporary_y > 0\
-		&& data->dist.temporary_x > 0 && data->dist.temporary_x <= WINDOW_WIDTH)
+	while (data->dist.temporary_y <= data->window_height && \
+		data->dist.temporary_y > 0 && data->dist.temporary_x > 0 && \
+		data->dist.temporary_x <= data->window_width)
 	{
-		x = data->dist.temporary_x;//testing
+		x = data->dist.temporary_x;
 		y = data->dist.temporary_y;
-		// float y = temp_y + (data->ray_up ? -1 : 0);//testing
 		if (data->ray_up)
 			y -= 1;
 		if (is_inside_wall(data, x, y))
 		{
 			data->Horiz.x = data->dist.temporary_x;
 			data->Horiz.y = data->dist.temporary_y;
-			if (data->Horiz.x == 0 && data->Horiz.y == 0)//remove this!
-			{
-				data->Horiz.x = 40;
-				data->Horiz.y = 40;
-			}
 			data->Horiz.iswall = TRUE;
-			// return (intersection_point);
 			break ;
 		}
 		else
@@ -83,7 +67,6 @@ void	horizontal_intersection(t_data *data)
 			data->dist.temporary_y += data->dist.y_step;
 		}
 	}
-	// return (intersection_point);
 }
 
 void	vertical_init(t_data *data)
@@ -97,23 +80,17 @@ void	vertical_init(t_data *data)
 
 void	vertical_intersection(t_data *data)
 {
-	float x;
-	float y;
+	float	x;
+	float	y;
 
-	//init variables
 	vertical_init(data);
-	//find coordinate BEGIN
 	find_coordinate(data, VERTICAL);
-	//find coordinate END
-	
-	//find the next x and y steps BEGIN
 	vertical_next_step(data);
-	//find the next x and y steps END
-
 	data->dist.temporary_x = data->dist._x;
 	data->dist.temporary_y = data->dist._y;
-	while (data->dist.temporary_y <= WINDOW_HEIGHT && data->dist.temporary_y > 0\
-		 && data->dist.temporary_x > 0 && data->dist.temporary_x <= WINDOW_WIDTH)
+	while (data->dist.temporary_y <= data->window_height && \
+		data->dist.temporary_y > 0 && data->dist.temporary_x > 0 && \
+		data->dist.temporary_x <= data->window_width)
 	{
 		x = data->dist.temporary_x;
 		if (data->ray_left)
@@ -121,16 +98,9 @@ void	vertical_intersection(t_data *data)
 		y = data->dist.temporary_y;
 		if (is_inside_wall(data, x, y))
 		{
-			//save point (x,y)
 			data->Vert.x = data->dist.temporary_x;
 			data->Vert.y = data->dist.temporary_y;
-			if (data->Vert.x == 0 && data->Vert.y == 0)
-			{
-				data->Vert.x = 40;
-				data->Vert.y = 40;
-			}
 			data->Vert.iswall = TRUE;
-			// return (data->points);
 			break ;
 		}
 		else
@@ -139,5 +109,4 @@ void	vertical_intersection(t_data *data)
 			data->dist.temporary_y += data->dist.y_step;
 		}
 	}
-	// return (data->points);
 }

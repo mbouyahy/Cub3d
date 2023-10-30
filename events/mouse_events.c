@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 15:39:44 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/29 16:06:02 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/29 20:11:05 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int mouse_move(int x, int y, t_data *data)
     // data->mouse.old_x = x;
     // data->mouse.old_y = y;
 
-
+(void)y;
     
-    if (x > WINDOW_WIDTH)
-        mlx_mouse_move(data->win_ptr, 0, y);
+    // if (x > WINDOW_WIDTH)
+    //     mlx_mouse_move(data->win_ptr, 0, y);
 
     if (x > data->mouse.old_x)
     {

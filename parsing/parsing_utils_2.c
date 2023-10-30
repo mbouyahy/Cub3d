@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:22:10 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:20:02 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:51:37 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	ft_occurence_time(char *str, char c)
 	int	count;
 
 	count = 0;
+	if (!str)
+		return (0);
 	i = 0;
 	while (str[i])
 	{
