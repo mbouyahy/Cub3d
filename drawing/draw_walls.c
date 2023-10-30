@@ -6,94 +6,88 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:24:41 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/22 18:07:43 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/10/29 18:12:38 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-void	put_img1(int x, int y, unsigned int color, t_data *data)
+float    abs_angle(t_data *data)
 {
-	char	*pixel;
-
-	pixel = data->img1.addr + ((y * (data->img1.line_len) + (x * (data->img1.bpp / 8))));
-	*(unsigned int *)pixel = color;
+    if (data->var.angle > data->player.r_angle)
+        return (data->var.angle - data->player.r_angle);
+    else if (data->var.angle < data->player.r_angle)
+        return (data->player.r_angle - data->var.angle);
+    return (data->var.angle);
 }
 
-float	distance_calc(t_data *data, t_point p)
+void    drawing_wall(t_data *data, int axe)
 {
-	return (sqrt((p.x - data->player.x) * (p.x - data->player.x))\
-				 + (p.y - data->player.y) * (p.y - data->player.y));
+    float	correct_distance;
+    float	projectionWallH;
+    int		top;
+    int		bottom;
+    
+    correct_distance = data->distance * cos(abs_angle(data));
+    projectionWallH = (data->tile / correct_distance) * (WINDOW_WIDTH / 2) / tanf((data->fov / 2));
+    top = (WINDOW_HEIGHT - (int)projectionWallH) / 2;
+    bottom = top + projectionWallH;
+
+    draw_scene_line(data, top, bottom, axe);
 }
 
-void    wall_drawing(t_data *data, float dist, int i, t_var *var)
+float	distance_calc(t_data *data, int value)
 {
-    float       d_projection_plane;
-    int         wall_length;
-    int         top;
-    int         bottom;
-    float       temp_var;
-    float       correct_dist;
-
-    wall_length = 0;
-    d_projection_plane = (data->width_size / 2) / tan(data->fov / 2);
-    correct_dist = dist * cos(data->points.angle - data->player.r_angle);///NOT Work
-    temp_var = (CUB_SIZE / correct_dist) * d_projection_plane;
-    wall_length = (int)(temp_var);
-    top = (data->height_size / 2) - (wall_length / 2);
-    if (top < 0)
-        top = 0;
-    bottom = (data->height_size / 2) + (wall_length / 2);
-    if (bottom > data->height_size)
-        bottom = data->height_size;
-    (void)var;
-    (void)data;
-    for (int j = top; j < bottom; j++)
+    if (value == HORIZONTAL)
     {
-        if (top < data->width_size && bottom < data->height_size && i < data->width_size)
-        {
-            put_img(i, j, 0, data);
-        }
+        return (sqrt(((data->player.x - data->Horiz.x) * ( data->player.x - data->Horiz.x))\
+                    + ((data->player.y - data->Horiz.y) * (data->player.y - data->Horiz.y))));
     }
+    else if (value == VERTICAL)
+    {
+        return (sqrt(((data->player.x - data->Vert.x) * ( data->player.x - data->Vert.x))\
+            + ((data->player.y - data->Vert.y) * (data->player.y - data->Vert.y))));
+    }
+    return (0);
 }
 
-void    find_distance(t_data *data, float angle, int i, t_var *var)
+void wall(t_data *data, float hor, float ver)
 {
-    t_point         horizontal_p;
-    t_point         vertical_p;
+    if (hor < ver)
+    {
+        data->distance = hor;
+        data->x_wall = data->Horiz.x;
+        data->y_wall = data->Horiz.y;
+        data->type = HORIZONTAL;
+        drawing_wall(data, HORIZONTAL);
+    }
+    else
+    {
+        data->distance = ver;
+        data->x_wall = data->Vert.x;
+        data->y_wall = data->Vert.y;
+        data->type = VERTICAL;
+        drawing_wall(data, VERTICAL);
+    }  
+}
+
+void    find_distance(t_data *data)
+{
     float           vertical;
     float           horizontal;
-    int             status;
 
     vertical = 0;
     horizontal = 0;
 
-    horizontal_p = horizontal_intersection(data, angle);
-    vertical_p = vertical_intersection(data, angle);
-    horizontal = distance_calc(data, horizontal_p);
-    vertical = distance_calc(data, vertical_p);
-    status = 0;
-
-    if (horizontal < vertical)
-    {
-        data->points.x = horizontal_p.x;
-        data->points.y = horizontal_p.y;
-        data->points.angle = horizontal_p.angle;
-        data->points.is_vertical = horizontal_p.is_vertical;
-        data->distance = horizontal;
-        // wall_drawing(data, horizontal, i, var);
-        status = 1;
-    }
+    horizontal_intersection(data);
+    vertical_intersection(data);
+    if (data->Horiz.iswall)
+        horizontal = distance_calc(data, HORIZONTAL);
     else
-    {
-        data->points.x = vertical_p.x;
-        data->points.y = vertical_p.y;
-        data->points.angle = vertical_p.angle;
-        data->points.is_vertical = horizontal_p.is_vertical;
-        data->distance = vertical;
-        // wall_drawing(data, vertical, i, var);
-        status = 2;
-    }
-    (void)var;
-    (void)i;
+        horizontal = MAX_I;
+    if (data->Vert.iswall)
+        vertical = distance_calc(data, VERTICAL);
+    else
+        vertical = MAX_I;
+    wall(data, horizontal, vertical);
 }

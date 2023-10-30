@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:24:42 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:55:33 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/27 12:32:49 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,9 @@ int	ft_error(int type)
 		ft_error_visual_data(type);
 	else if (type >= STRANGE_CHAR_IN_MAP && type <= CLIFF_FOUND)
 		ft_error_map_player(type);
+	else if (type == TEXTURE_OPENING)
+		ft_putstr_fd("error while opening the texture\n", 2);
+	else if (type == IMAGE_ALLOCATION)
+		ft_putstr_fd("error while ALLOCATING IMAGES\n", 2);
 	return (EXIT_FAILURE);
 }
