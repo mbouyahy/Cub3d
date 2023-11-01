@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:57 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:14:58 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/27 10:08:58 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	extract_path(t_data *cub)
 		key = ft_substr(cub->visual_data[i], 0, 2);
 		tmp = ft_substr(cub->visual_data[i], 2, ft_strlen(cub->visual_data[i]));
 		path = ft_strtrim(tmp, "\t ");
-		if (!ft_strcmp(cub->visual_data[i], "NO"))
+		if (!ft_strcmp(key, "NO"))
 			cub->visuals->no_texture = ft_strdup(path);
 		else if (!ft_strcmp(key, "SO"))
 			cub->visuals->so_texture = ft_strdup(path);

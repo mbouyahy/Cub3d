@@ -6,15 +6,15 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:10:54 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:19:44 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/30 00:03:48 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-int	create_trgb(int t, int r, int g, int b)
+int	create_rgba(int r, int g, int b, int a)
 {
-	return (t << 24 | r << 16 | g << 8 | b);
+	return (r << 24 | g << 16 | b << 8 | a);
 }
 
 int	str_isdigit(char *str)

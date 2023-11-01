@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/26 22:19:55 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:26:53 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@
 # include <stdlib.h>
 # include <unistd.h>
 #include <math.h>
-#include <mlx.h>
+// #include <mlx.h>
+// #include </Users/mbouyahy/homebrew/include/GLFW/glfw3.h>//test
+#include "/Users/mbouyahy/goinfre/MLX42/include/MLX42/MLX42.h"
 #include <fcntl.h>
 
 /*---------------------------<Parsing Macro's>---------------------------*/
@@ -31,9 +33,11 @@
 
 /*---------------------------<Special Macro's>---------------------------*/
 
-# define WINDOW_HEIGHT 1080
-# define WINDOW_WIDTH 1920
-# define CUB_SIZE 40
+# define WINDOW_HEIGHT 720
+# define WINDOW_WIDTH 1280
+# define CUB_SIZE 20
+# define SPEED 2.1f
+# define ROTATE 2.1f
 
 # define HORIZONTAL	0
 # define VERTICAL 1
@@ -84,6 +88,8 @@ enum				e_error
 	EMPTY_LINE_IN_MAP_GRID,
 	PLAYER_BAD_POS,
 	CLIFF_FOUND,
+	TEXTURE_OPENING,
+	IMAGE_ALLOCATION,
 };
 
 enum				e_component_error
@@ -143,6 +149,14 @@ typedef struct s_var
     int			y_end;
     float		angle;
     float		angle_inc;
+	int			width;
+	int			height;
+	float		x_inc;
+	float		y_inc;
+	float		x_one;
+	float		y_one;
+	float		x_two;
+	float		y_two;
 }			t_var;
 
 
@@ -174,6 +188,41 @@ typedef struct s_minimap
 	float			y;
 } t_minimap;
 
+typedef struct s_tex
+{
+	void		*img_ptr;
+	char		*addr;
+	int			bpp;
+	int			line_len;
+	int			endian;
+	int			width;
+	int			height;
+}				t_tex;
+
+typedef struct s_texturing
+{
+	float			current_collumn;
+	unsigned int	color;
+	float			x_diff;
+	float			y_diff;
+	float			middle_dist;
+	float			x_end_wall;
+	float			y_percentage;
+	float			x_percentage;
+	float			x_step;
+	float			u_step;
+}				t_texturing;
+
+
+typedef struct s_mouse
+{
+	float		old_x;
+	float		old_y;
+	float		new_x;
+	float		new_y;
+}				t_mouse;
+
+
 typedef struct s_data
 {
 	char			**file;
@@ -187,24 +236,23 @@ typedef struct s_data
 	t_visuals		*visuals;
 	t_player		player;
 	t_var			var;
-
+	mlx_texture_t	*no;
+	mlx_texture_t	*so;
+	mlx_texture_t	*ea;
+	mlx_texture_t	*we;
 	int				width_size;
     int				height_size;
-    void			*mlx_ptr;
-    void			*win_ptr;
     int				x_start;
     int				y_start;
     int				cub;
     float			fov;
-
 	t_minimap		minimap;
 	int				collums;
 	int				rows;
-
     char			**map;
     int				map_size;
-
-    t_img			img;
+	mlx_t			*mlx;
+	mlx_image_t		*image;
 	t_distance  	dist;
 	t_point			Vert;
 	t_point			Horiz;
@@ -213,6 +261,20 @@ typedef struct s_data
 	int         	ray_down;
 	int         	ray_left;
 	int         	ray_right;
+	float			angle;
+	float			x_wall;
+	float 			y_wall;
+	int				tile;
+	t_texturing		texture;
+	float			x_;
+	t_mouse			mouse;
+	int32_t			new_x;
+	int				game_started;
+	int				activate;
+	int				type;
+	int				window_width;
+    int				window_height;
+	unsigned int	color;
 }					t_data;
 
 /*---------------------------<Minimap Functions>---------------------------*/
@@ -229,14 +291,17 @@ void				create_image(t_data *data);
 
 /*---------------------------<Events Functions>---------------------------*/
 
-void				player_moves(t_data *data, int key, float x_value, float y_value);
+void				rotate_line(t_data *data, float angle);
+void				player_moves(t_data *data, mlx_t *mlx, float x_value, float y_value);
 void    			key_a(t_data *data, float x_value, float y_value);
 void				key_d(t_data *data, float x_value, float y_value);
 void				key_w(t_data *data, float x_value, float y_value);
 void				key_s(t_data *data, float x_value, float y_value);
-int					key_events(int btr, t_data *data);
+void				key_events(void *data);
 int					destroy_window(t_data *data);
 int					check_wall(t_data *data, float x_value, float y_value);//change the place of this function
+int 				mouse_move(int x, int y, t_data *data);
+int 				ft_exit_cross(t_data *data);
 
 /*---------------------------<Ray Casting Functions>---------------------------*/
 
@@ -248,17 +313,19 @@ void				horizontal_next_step(t_data *data);
 void				vertical_next_step(t_data *data);
 float				remainder_angle(float angle);
 void    			find_distance(t_data *data);
+void				horizontal_init(t_data *data);
+void				vertical_init(t_data *data);
+void				setup_direction(t_data *data);
+
 
 /*---------------------------<Drawing Functions>---------------------------*/
 
-void				put_img(int x, int y, unsigned int color, t_data *data);
-void				draw_special_line(t_data *data, int wallTP, int wallBP);
-void 				dda(int x1, int y1, int x2, int y2, t_data *data);//for testing REMOVE IT 🚨
+void				draw_scene_line(t_data *data, int wallTP, int wallBP, int axe);
 void				draw_square(t_data *data, int color, int cub);
-void				drawing_wall(t_data *data);
+void				drawing_wall(t_data *data, int axe);
 void				setup_angle(t_data *data);
 void				draw_line(t_data *data);
-int 				ft_render(t_data *data);
+void 				ft_render(void *data);
 float				abs_angle(t_data *data);
 float				deg_to_rad(float deg);
 
@@ -276,7 +343,7 @@ int					extract_path(t_data *cub);
 int					extract_color_code(t_data *cub);
 int					check_rgb_range(int r, int g, int b);
 int					get_color(char *color_str, unsigned int *color);
-int					create_trgb(int t, int r, int g, int b);
+int					create_rgba(int r, int g, int b, int a);
 int					get_floor_ceiling_color(t_data *cub);
 
 int					ft_more_than_one_player(t_data *cub);
@@ -299,8 +366,13 @@ int					ft_occurence_time(char *str, char c);
 int					ft_occurence_index(char *str, char c);
 void				double_print(char **str);
 
-int					ft_error(int type);
 
-////////////////////////////////------ RAY_CASTING (TMP) ------////////////////////////////////
+int texture_checks(t_data   *data);
+void	put_pixel(t_img *img, int x, int y, int color);
+int32_t	get_color_texture(mlx_texture_t *txt, int x, int y);
+void	put_pixel(t_img *img, int x, int y, int color);
+void ddaa(t_data *data);
+
+int					ft_error(int type);
 
 #endif

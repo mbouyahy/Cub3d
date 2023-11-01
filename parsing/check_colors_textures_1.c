@@ -6,7 +6,7 @@
 /*   By: jlaazouz <jlaazouz@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:39:22 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/12 20:01:23 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/10/30 00:03:15 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	get_color(char *color_str, unsigned int *color)
 		return (ft_error(COLOR_FORMAT));
 	if (check_rgb_range(ft_atoi(r), ft_atoi(g), ft_atoi(b)))
 		return (ft_error(COLOR_FORMAT));
-	*color = create_trgb(0, ft_atoi(r), ft_atoi(g), ft_atoi(b));
+	*color = create_rgba(ft_atoi(r), ft_atoi(g), ft_atoi(b), 0xff);
 	return (EXIT_SUCCESS);
 }
 

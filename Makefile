@@ -1,14 +1,8 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/09 16:54:22 by jlaazouz          #+#    #+#              #
-#    Updated: 2023/10/26 20:21:12 by mbouyahy         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = cub3D
+
+LIBFT = libft/libft.a
+MLX 	= -Wunreachable-code -O3
+# MLX    = -lmlx -framework OpenGL -framework AppKit
 
 SRCS_M = main.c
 
@@ -16,41 +10,40 @@ OBJS_M = ${ALL_SRCS:.c=.o}
 
 PARSING_M =	${addprefix parsing/,check_colors_textures.c check_colors_textures_1.c\
 						check_map.c checks_player.c error_logs.c fill_data.c parsing.c\
-						parsing_utils_1.c parsing_utils_2.c parsing_utils_3.c read_map.c}
+						parsing_utils_1.c parsing_utils_2.c parsing_utils_3.c read_map.c ft_check_textures.c}
 
 SETUP_M =	${addprefix setup/,init_data.c}
 
-DRAWING_M =	${addprefix drawing/,ray_casting.c minimap_utiles.c ray_casting_utiles.c draw_rays.c draw_utiles.c draw_walls.c minimap.c}
+DRAWING_M =	${addprefix drawing/,ray_casting.c minimap_utiles.c ray_casting_init.c ray_casting_utiles.c draw_rays.c draw_utiles.c draw_walls.c minimap.c}
 
-EVENTS_M =	${addprefix events/,key_events.c events_utiles.c keys.c}
+TEXTURING_M = ${addprefix texturing/,wall_texturing.c texturing_utils.c}
 
-DRAWING_OBJ_M = ${DRAWING_M:.o=.o}
+EVENTS_M =	${addprefix events/,key_events.c events_utiles.c keys.c mouse_events.c}
 
-SETUP_OBJ_M = ${SETUP_M:.c=.o}
+PARSING_O = ${PARSING_M:.c=.o}
 
-EVENTS_OBJ_M = ${EVENTS_M:.c=.o}
+SETUP_O = ${SETUP_M:.c=.o}
 
-PARSING_OBJ_M = ${PARSING_M:.c=.o}
+DRAWING_O = ${DRAWING_M:.c=.o}
 
-ALL_SRCS = ${SRCS_M} ${PARSING_M} ${SETUP_M} ${DRAWING_M} ${EVENTS_M} 
+TEXTURING_O = ${TEXTURING_M:.c=.o}
 
-NAME = cub3D
+EVENTS_O = ${EVENTS_M:.c=.o}
 
-LIBFT = libft/libft.a
+ALL_SRCS = ${SRCS_M} ${PARSING_M} ${SETUP_M} ${DRAWING_M} ${TEXTURING_M} ${EVENTS_M} 
 
-CC = cc 
 
 CFLAGS = -Wall -Wextra -Werror -ffast-math -fsanitize=address -g
 
-RM = rm -rf
+all : $(NAME)
 
-all : ${NAME}
 
-${NAME} : ${ALL_OBJS} ${PARSING_M:.c=.o} ${EVENTS_M:.c=.o} ${DRAWING_M:.o=.o} ${SETUP_M:.c=.o} 
+$(NAME) : ${OBJS_M} ${PARSING_O} ${SETUP_O} ${DRAWING_O} ${TEXTURING_O} ${EVENTS_O}
 	@make -C libft
-	${CC} ${CFLAGS} ${ALL_SRCS}  -lmlx -framework OpenGL -framework AppKit ${LIBFT} -o ${NAME}
+	@$(CC) $(CFLAGS) $(ALL_SRCS) ~/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/mbouyahy/homebrew/Cellar/glfw/3.3.8/lib" ${LIBFT} -o $(NAME)
+
 clean:
-	${RM} ${OBJS_M} 
+	${RM} ${OBJS_M}
 	${MAKE} -C libft clean
 
 fclean: clean

@@ -1,39 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strnstr.c                                       :+:      :+:    :+:   */
+/*   mouse_events.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 20:17:32 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/10/31 17:59:40 by mbouyahy         ###   ########.fr       */
+/*   Created: 2023/10/29 15:39:44 by jlaazouz          #+#    #+#             */
+/*   Updated: 2023/10/31 18:36:48 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../cub.h"
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
+int	mouse_move(int x, int y, t_data *data)
 {
-	char	*big;
-	size_t	i;
-	size_t	j;
-	size_t	needle_len;
-
-	big = (char *)haystack;
-	needle_len = ft_strlen(needle);
-	if (!needle_len)
-		return (big);
-	i = 0;
-	while (big[i])
+	(void)y;
+	if (x > data->mouse.old_x)
 	{
-		j = 0;
-		while (big[i + j] == needle[j] && i + j < len)
-		{
-			j++;
-			if (j == needle_len)
-				return (big + i);
-		}
-		i++;
+		rotate_line(data, (2.1f * (M_PI / 180)));
+		data->mouse.old_x = x;
 	}
-	return (NULL);
+	else if (x < data->mouse.old_x)
+	{
+		rotate_line(data, (-2.1f * (M_PI / 180)));
+		data->mouse.old_x = x;
+	}
+	return (0);
 }

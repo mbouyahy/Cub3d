@@ -6,71 +6,70 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 19:12:24 by mbouyahy          #+#    #+#             */
-/*   Updated: 2023/10/26 22:19:38 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:31:20 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub.h"
 
-void    redraw(t_data *data)
+void	ft_draw_walls_2d(t_data *cub)
 {
-    mlx_destroy_image(data->mlx_ptr, data->img.mlx_img);
-    data->img.mlx_img = mlx_new_image(data->mlx_ptr, WINDOW_WIDTH, WINDOW_HEIGHT);
-    data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp, \
-                        &data->img.line_len, &data->img.endian);
+	size_t	i;
+
+	i = 0;
+	cub->color = 0xff;
+	while (i < cub->map_rows * cub->cub)
+	{
+		cub->var.x_one = 0;
+		cub->var.y_one = i;
+		cub->var.x_two = (cub->map_collums - 1) * cub->cub;
+		cub->var.y_two = i;
+		ddaa(cub);
+		i += cub->cub;
+	}
+	i = 0;
+	while (i < cub->map_collums * cub->cub)
+	{
+		cub->var.x_one = i;
+		cub->var.y_one = 0;
+		cub->var.x_two = i;
+		cub->var.y_two = cub->map_rows * cub->cub;
+		ddaa(cub);
+		i += cub->cub;
+	}
 }
 
-int	ft_render(t_data *data)
+void	ft_render(void *param)
 {
-	redraw(data);
+	t_data	*data;
+
+	data = (t_data *)param;
 	draw_line(data);
 	draw_minimap(data);
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.mlx_img, 0, 0);
-	return (0);
+	// ft_draw_walls_2d(data);
+	data->activate = 1;
 }
 
-void rotate_line(t_data *data, float angle)
+void	rotate_line(t_data *data, float angle)
 {
-    data->player.r_angle += angle;
-    data->player.r_angle = remainder_angle(data->player.r_angle);
+	data->player.r_angle += angle;
+	data->player.r_angle = remainder_angle(data->player.r_angle);
 }
 
-int  check_wall(t_data *data, float x_value, float y_value)
+void	key_events(void *param)
 {
-    int     grid_x;
-    int     grid_y;
-    float   x;
-    float   y;
-  
-    x = data->player.x + x_value;
-    y = data->player.y + y_value;
-    if (x <= CUB_SIZE - x_value  || y <= CUB_SIZE - y_value ||
-        x >= WINDOW_WIDTH - CUB_SIZE || y >= WINDOW_HEIGHT - CUB_SIZE)
-      return (1);
-    grid_x = (int)(x / CUB_SIZE);
-    grid_y = (int)(y / CUB_SIZE);
-    if (grid_x >= data->collums - 1 || grid_y >= data->rows - 1)
-      return (1);
-    if (data->map[grid_y][grid_x] == '0' || 
-        ft_strchr(MAP_DIRECTIONS, data->map[grid_y][grid_x]))
-      return (0);
-    return (1);
-}
+	t_data	*data;
+	float	x_value;
+	float	y_value;
 
-int key_events(int key, t_data *data)
-{
-    float x_value;
-    float y_value;
-
-    x_value = cos((data->player.r_angle)) * 10;
-    y_value = sin((data->player.r_angle)) * 10;
-    if (key == RIGHT)
-      rotate_line(data,  (5 * (M_PI / 180)));
-    if (key == LEFT)
-      rotate_line(data,  (-5 * (M_PI / 180)));
-    player_moves(data, key, x_value, y_value);
-    if (key == ESC)
-		  destroy_window(data);
-    ft_render(data);
-    return (0);
+	data = (t_data *)param;
+	x_value = cos((data->player.r_angle + data->angle)) * SPEED;
+	y_value = sin((data->player.r_angle + data->angle)) * SPEED;
+	if (mlx_is_key_down(data->mlx, MLX_KEY_RIGHT))
+		rotate_line(data, (ROTATE * (M_PI / 180)));
+	if (mlx_is_key_down(data->mlx, MLX_KEY_LEFT))
+		rotate_line(data, (-ROTATE * (M_PI / 180)));
+	if (mlx_is_key_down(data->mlx, MLX_KEY_ESCAPE))
+		mlx_close_window(data->mlx);
+	player_moves(data, data->mlx, x_value, y_value);
 }
