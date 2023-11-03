@@ -1,6 +1,6 @@
-NO ./textures/no.png
-SO ./textures/so.png
-WE ./textures/we.png 
+NO ./textures/no_s.png
+SO ./textures/so_s.png
+WE ./textures/key_codes.png 
 EA ./textures/ea.png
 
 C 0,220,255
@@ -12,4 +12,4 @@ F 255,255,255
 100N1
 111111
 1    1
-111111   1
+111111 1  1

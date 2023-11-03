@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaazouz < jlaazouz@student.1337.ma>       +#+  +:+       +#+        */
+/*   By: jlaazouz <jlaazouz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 01:34:50 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/03/29 22:07:15 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:32:38 by jlaazouz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,3 @@ char	**ft_split(char const *s, char c)
 	split[j] = 0;
 	return (split);
 }
-
-//
