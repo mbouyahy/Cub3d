@@ -6,7 +6,7 @@
 /*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/11/03 17:49:42 by mbouyahy         ###   ########.fr       */
+/*   Updated: 2024/03/01 23:17:36 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB_H
 
 # include "../libft/libft.h"
-# include "/Users/mbouyahy/Desktop/MLX42/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>

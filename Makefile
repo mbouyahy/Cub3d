@@ -46,12 +46,11 @@ bonus : ${NAME_B}
 
 $(NAME) : ${M}main.o ${PARSING_O} ${SETUP_O} ${DRAWING_O} ${TEXTURING_O} ${EVENTS_O} ${M}cub.h
 	@make -C libft
-	@$(CC) $(CFLAGS) $(ALL_SRCS_M) /Users/${USER}/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/${USER}/homebrew/Cellar/glfw/3.3.8/lib" ${LIBFT} -o $(NAME)
-
+	@$(CC) $(CFLAGS) $(ALL_SRCS_M) ../Cub3d/MLX42/build/libmlx42.a -Iinclude -lglfw -L "/Users/${USER}/homebrew/Cellar/glfw/3.3.8/lib" ${LIBFT} -o $(NAME)
 
 $(NAME_B) : ${B}main_bonus.o ${PARSING_O_B} ${SETUP_O_B} ${DRAWING_O_B} ${TEXTURING_O_B} ${EVENTS_O_B} ${B}cub_bonus.h
 	@make -C libft
-	@$(CC) $(CFLAGS) $(ALL_SRCS_B) /Users/${USER}/Desktop/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/${USER}/homebrew/Cellar/glfw/3.3.8/lib" ${LIBFT} -o $(NAME_B)
+	@$(CC) $(CFLAGS) $(ALL_SRCS_B) ../Cub3d/MLX42/build/libmlx42.a -Iinclude -lglfw -L"/Users/${USER}/homebrew/Cellar/glfw/3.3.8/lib" ${LIBFT} -o $(NAME_B)
 
 
 clean:

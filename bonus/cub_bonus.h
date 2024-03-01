@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jlaazouz <jlaazouz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mbouyahy <mbouyahy@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/09 16:22:29 by jlaazouz          #+#    #+#             */
-/*   Updated: 2023/11/01 20:55:48 by jlaazouz         ###   ########.fr       */
+/*   Updated: 2024/03/01 23:23:17 by mbouyahy         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define CUB_BONUS_H
 
 # include "../libft/libft.h"
-# include "/Users/jlaazouz/mlx/include/MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <math.h>
