@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+2d80fc64f9fb4e0f371d25e64c08aec0 mlx_frag_shader.c
+cd79caa832bfd1d2fdae882197a1a9c3 mlx_vert_shader.c
